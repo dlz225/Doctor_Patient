@@ -122,6 +122,10 @@
 }
 - (void)dologin
 {
+    
+    self.view.window.rootViewController = [DCMainViewController shareMainViewController];
+    return ;
+    
     NSString *name = self.userInput.text;
     NSString *pwd = self.passwordInput.text;
     NSString *message = nil;
@@ -137,8 +141,9 @@
         [userDefault synchronize];
         
         NSMutableDictionary *para = [NSMutableDictionary dictionary];
-        [para setObject:pwd forKey:@"passWord"];
-        [para setObject:name forKey:@"userName"];
+        [para setObject:pwd forKey:@"userVo.passWord"];
+        [para setObject:name forKey:@"userVo.userName"];
+        [para setObject:@(1) forKey:@"userVo.userType"];
         
         [DCAPIClient userAuth:@"login!login"
                    parameters:para

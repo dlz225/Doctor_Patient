@@ -10,5 +10,7 @@
 #define DoctorClient_Constant_h
 #define kLoginName @"loginName"
 
+#define kTagNumReservedForExcludingViews 19823
+#define kMainSize [UIScreen mainScreen].bounds.size
 
 #endif

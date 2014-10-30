@@ -8,8 +8,13 @@
 
 #ifndef DoctorClient_PrefixHeader_pch
 #define DoctorClient_PrefixHeader_pch
+#import <UIKit/UIKit.h>
 
 #import "Constant.h"
+#import "UItils.h"
+#import "NSString+Extension.h"
+#import "UIScrollView+AH3DPullRefresh.h"
+
 
 #import "DrawerViewController.h"
 #import "DCMainViewController.h"

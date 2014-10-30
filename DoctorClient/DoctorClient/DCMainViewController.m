@@ -9,6 +9,7 @@
 #import "DCMainViewController.h"
 #import "ViewController.h"
 #import "DCMainModel.h"
+#import "DCHomeViewController.h"
 
 
 @interface DCMainViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -43,6 +44,7 @@
     tableview.dataSource = self;
     tableview.delegate = self;
     tableview.frame = CGRectMake(20, 50, 150, 400);
+    tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.mainView addSubview:tableview];
     self.controlTableView = tableview;
@@ -59,11 +61,17 @@
 
 
 - (void)addController{
-    ViewController *viewcontroller = [[ViewController alloc] init];
     
+    DCHomeViewController *homeviewcontroller = [[DCHomeViewController alloc] init];
+    [homeviewcontroller.leftButton addTarget:self action:@selector(leftItemClick:) forControlEvents:UIControlEventTouchUpInside];
     DCMainModel *model1 = [[DCMainModel alloc] init];
-    model1.control = viewcontroller;
+    UINavigationController *navigationHome = [[UINavigationController alloc] initWithRootViewController:homeviewcontroller];
+    navigationHome.navigationBar.tag = kTagNumReservedForExcludingViews;
+
+    model1.control = navigationHome;
     model1.title = @"Home";
+    
+    
     
     UIViewController *waitingRoom = [[UIViewController alloc] init];
     [waitingRoom.view setBackgroundColor:[UIColor blueColor]];
@@ -89,8 +97,7 @@
     
     
     
-    [self initCurrentView:viewcontroller.view];
-//    [self initRightview:nil];
+    [self initCurrentView:navigationHome.view];
     [self.controllersArray addObject:model1];
     [self.controllersArray addObject:model2];
     [self.controllersArray addObject:labmodel];

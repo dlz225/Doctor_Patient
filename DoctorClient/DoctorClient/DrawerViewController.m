@@ -14,7 +14,7 @@
 
 
 
-@interface DrawerViewController ()
+@interface DrawerViewController ()<UIGestureRecognizerDelegate>
 {
     // 刚开始按下去时的x
     CGFloat _lastDownX;
@@ -62,11 +62,17 @@
         
         // 添加手势
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panRecognized:)];
+        pan.delegate = self;
         [self.currentView addGestureRecognizer:pan];
         self.pan = pan;
     }
     return  self;
 }
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    return !(touch.view.tag == kTagNumReservedForExcludingViews);
+}
+
 
 - (void)addPan{
     [self.currentView removeGestureRecognizer:self.pan];
@@ -214,22 +220,31 @@
         frame.origin.x = 0;
     }
     // 2.重新赋值frame
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.5f];
-    self.currentView.frame = frame;
-    if (frame.origin.x == 0) {
-        [self changeViewFrameAndAlpha:frame isLeft:isLeft];
-    } else
-    {
-        if (isLeft)
-        {
-            self.leftView.frame = CGRectMake(0, 0, _leftWidth, _leftHeight);
-        } else
-        {
-//            self.rightView.frame = CGRectMake(_rightOrighX, 0, _rightWidth, _rightHeight);
-        }
-    }
-    [UIView commitAnimations];
+    
+    
+    __block DrawerViewController *blockself = self;
+    [UIView animateWithDuration:0.5f
+                          delay:0.0f
+         usingSpringWithDamping:1.0f
+          initialSpringVelocity:0.0f
+                        options:UIViewAnimationOptionLayoutSubviews animations:^{
+                            blockself.currentView.frame = frame;
+                            if (frame.origin.x == 0) {
+                                [blockself changeViewFrameAndAlpha:frame isLeft:isLeft];
+                            } else
+                            {
+                                if (isLeft)
+                                {
+                                    blockself.leftView.frame = CGRectMake(0, 0, _leftWidth, _leftHeight);
+                                } else
+                                {
+                                    //            self.rightView.frame = CGRectMake(_rightOrighX, 0, _rightWidth, _rightHeight);
+                                }
+                            }
+                            
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 #pragma mark 点击左边的item按钮

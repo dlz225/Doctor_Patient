@@ -19,6 +19,13 @@
 		A70ACC8719F348B7009BAC9A /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A70ACC7D19F348B7009BAC9A /* AFXMLRequestOperation.m */; };
 		A70ACC8819F348B7009BAC9A /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A70ACC7F19F348B7009BAC9A /* UIImageView+AFNetworking.m */; };
 		A70ACC8B19F34953009BAC9A /* DCAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A70ACC8A19F34953009BAC9A /* DCAPIClient.m */; };
+		A7222DED19FF898E006E5C53 /* DCNewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222DEC19FF898E006E5C53 /* DCNewsModel.m */; };
+		A7222DF019FF8FDB006E5C53 /* DCNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222DEF19FF8FDB006E5C53 /* DCNewsTableViewCell.m */; };
+		A7222DF619FFB15E006E5C53 /* UItils.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222DF519FFB15E006E5C53 /* UItils.m */; };
+		A7222DF919FFB462006E5C53 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222DF819FFB462006E5C53 /* NSString+Extension.m */; };
+		A7222DFC1A009138006E5C53 /* DCNewsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222DFB1A009138006E5C53 /* DCNewsAction.m */; };
+		A7222DFF1A00CA77006E5C53 /* DCADDNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222DFE1A00CA77006E5C53 /* DCADDNewsViewController.m */; };
+		A7222E021A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222E011A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A74D13DC19EFBE8A008234EB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A74D13DB19EFBE8A008234EB /* main.m */; };
 		A74D13DF19EFBE8A008234EB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A74D13DE19EFBE8A008234EB /* AppDelegate.m */; };
 		A74D13E219EFBE8A008234EB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A74D13E119EFBE8A008234EB /* ViewController.m */; };
@@ -30,6 +37,7 @@
 		A74D141319EFE8A6008234EB /* DCMainModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A74D141219EFE8A6008234EB /* DCMainModel.m */; };
 		A7546CD119F50E150079203F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A7546CD019F50E150079203F /* libsqlite3.dylib */; };
 		A7546CD519F50EFD0079203F /* DCSqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = A7546CD419F50EFD0079203F /* DCSqlite.m */; };
+		A7B9D61219FE3E2800E76A13 /* DCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B9D61119FE3E2800E76A13 /* DCHomeViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +77,20 @@
 		A70ACC8919F34953009BAC9A /* DCAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCAPIClient.h; sourceTree = "<group>"; };
 		A70ACC8A19F34953009BAC9A /* DCAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCAPIClient.m; sourceTree = "<group>"; };
 		A70ACCBE19F357C1009BAC9A /* Logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logging.h; sourceTree = "<group>"; };
+		A7222DEB19FF898E006E5C53 /* DCNewsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCNewsModel.h; sourceTree = "<group>"; };
+		A7222DEC19FF898E006E5C53 /* DCNewsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCNewsModel.m; sourceTree = "<group>"; };
+		A7222DEE19FF8FDB006E5C53 /* DCNewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCNewsTableViewCell.h; sourceTree = "<group>"; };
+		A7222DEF19FF8FDB006E5C53 /* DCNewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCNewsTableViewCell.m; sourceTree = "<group>"; };
+		A7222DF419FFB15E006E5C53 /* UItils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UItils.h; sourceTree = "<group>"; };
+		A7222DF519FFB15E006E5C53 /* UItils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UItils.m; sourceTree = "<group>"; };
+		A7222DF719FFB462006E5C53 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
+		A7222DF819FFB462006E5C53 /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
+		A7222DFA1A009138006E5C53 /* DCNewsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCNewsAction.h; sourceTree = "<group>"; };
+		A7222DFB1A009138006E5C53 /* DCNewsAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCNewsAction.m; sourceTree = "<group>"; };
+		A7222DFD1A00CA77006E5C53 /* DCADDNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCADDNewsViewController.h; sourceTree = "<group>"; };
+		A7222DFE1A00CA77006E5C53 /* DCADDNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCADDNewsViewController.m; sourceTree = "<group>"; };
+		A7222E001A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+AH3DPullRefresh.h"; sourceTree = "<group>"; };
+		A7222E011A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+AH3DPullRefresh.m"; sourceTree = "<group>"; };
 		A725106319FA045C000D2A2E /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
 		A74D13D619EFBE8A008234EB /* DoctorClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoctorClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A74D13DA19EFBE8A008234EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -92,6 +114,8 @@
 		A7546CD019F50E150079203F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A7546CD319F50EFD0079203F /* DCSqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSqlite.h; sourceTree = "<group>"; };
 		A7546CD419F50EFD0079203F /* DCSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSqlite.m; sourceTree = "<group>"; };
+		A7B9D61019FE3E2800E76A13 /* DCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCHomeViewController.h; sourceTree = "<group>"; };
+		A7B9D61119FE3E2800E76A13 /* DCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCHomeViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,8 +198,8 @@
 				A74D13E019EFBE8A008234EB /* ViewController.h */,
 				A74D13E119EFBE8A008234EB /* ViewController.m */,
 				A74D13E819EFBE8A008234EB /* LaunchScreen.xib */,
-				A74D13FF19EFBF06008234EB /* Class */,
 				A74D13E619EFBE8A008234EB /* Images.xcassets */,
+				A74D13FF19EFBF06008234EB /* Class */,
 				A74D13D919EFBE8A008234EB /* Supporting Files */,
 				A7546CD219F50E440079203F /* Frameworks */,
 			);
@@ -225,8 +249,14 @@
 		A74D140019EFC091008234EB /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				A7222E001A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.h */,
+				A7222E011A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.m */,
 				A74D140619EFC1F4008234EB /* DrawerViewController.h */,
 				A74D140719EFC1F4008234EB /* DrawerViewController.m */,
+				A7222DF419FFB15E006E5C53 /* UItils.h */,
+				A7222DF519FFB15E006E5C53 /* UItils.m */,
+				A7222DF719FFB462006E5C53 /* NSString+Extension.h */,
+				A7222DF819FFB462006E5C53 /* NSString+Extension.m */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -270,6 +300,7 @@
 			children = (
 				A74D140919EFC23A008234EB /* 0_DCLogin */,
 				A74D140C19EFC24D008234EB /* 1_DCMainViewController */,
+				A7B9D60F19FE368900E76A13 /* 2_DCHomeViewCOntroller */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -303,6 +334,23 @@
 			);
 			name = Frameworks;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		A7B9D60F19FE368900E76A13 /* 2_DCHomeViewCOntroller */ = {
+			isa = PBXGroup;
+			children = (
+				A7B9D61019FE3E2800E76A13 /* DCHomeViewController.h */,
+				A7B9D61119FE3E2800E76A13 /* DCHomeViewController.m */,
+				A7222DEB19FF898E006E5C53 /* DCNewsModel.h */,
+				A7222DEC19FF898E006E5C53 /* DCNewsModel.m */,
+				A7222DEE19FF8FDB006E5C53 /* DCNewsTableViewCell.h */,
+				A7222DEF19FF8FDB006E5C53 /* DCNewsTableViewCell.m */,
+				A7222DFA1A009138006E5C53 /* DCNewsAction.h */,
+				A7222DFB1A009138006E5C53 /* DCNewsAction.m */,
+				A7222DFD1A00CA77006E5C53 /* DCADDNewsViewController.h */,
+				A7222DFE1A00CA77006E5C53 /* DCADDNewsViewController.m */,
+			);
+			name = 2_DCHomeViewCOntroller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -404,24 +452,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7B9D61219FE3E2800E76A13 /* DCHomeViewController.m in Sources */,
 				A70ACC8619F348B7009BAC9A /* AFURLConnectionOperation.m in Sources */,
 				A70ACC8819F348B7009BAC9A /* UIImageView+AFNetworking.m in Sources */,
 				A74D140F19EFC451008234EB /* DCMainViewController.m in Sources */,
 				A74D13E219EFBE8A008234EB /* ViewController.m in Sources */,
+				A7222DFC1A009138006E5C53 /* DCNewsAction.m in Sources */,
 				A70ACC8519F348B7009BAC9A /* AFPropertyListRequestOperation.m in Sources */,
+				A7222E021A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.m in Sources */,
 				A74D140819EFC1F4008234EB /* DrawerViewController.m in Sources */,
+				A7222DFF1A00CA77006E5C53 /* DCADDNewsViewController.m in Sources */,
+				A7222DF919FFB462006E5C53 /* NSString+Extension.m in Sources */,
 				A74D141319EFE8A6008234EB /* DCMainModel.m in Sources */,
 				1376410219F38AD8003B647D /* LoginViewController.m in Sources */,
 				A70ACC8719F348B7009BAC9A /* AFXMLRequestOperation.m in Sources */,
 				A7546CD519F50EFD0079203F /* DCSqlite.m in Sources */,
+				A7222DF019FF8FDB006E5C53 /* DCNewsTableViewCell.m in Sources */,
 				A70ACC8B19F34953009BAC9A /* DCAPIClient.m in Sources */,
 				A70ACC8419F348B7009BAC9A /* AFNetworkActivityIndicatorManager.m in Sources */,
 				A70ACC8119F348B7009BAC9A /* AFHTTPRequestOperation.m in Sources */,
 				A74D13DF19EFBE8A008234EB /* AppDelegate.m in Sources */,
 				1376410519F38AEE003B647D /* RegisterViewController.m in Sources */,
+				A7222DED19FF898E006E5C53 /* DCNewsModel.m in Sources */,
 				A70ACC8219F348B7009BAC9A /* AFImageRequestOperation.m in Sources */,
 				A70ACC8019F348B7009BAC9A /* AFHTTPClient.m in Sources */,
 				A70ACC8319F348B7009BAC9A /* AFJSONRequestOperation.m in Sources */,
+				A7222DF619FFB15E006E5C53 /* UItils.m in Sources */,
 				A74D13DC19EFBE8A008234EB /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -27,7 +27,7 @@
     UIViewController *rootcontroller ;
     NSUserDefaults *userInputDef = [NSUserDefaults standardUserDefaults];
     NSString *name = [userInputDef objectForKey:kLoginName];
-    if (!name) {
+    if (name) {
         NSString *password = [userInputDef objectForKey:name];
         if (password != nil) {
          //login success
@@ -39,6 +39,7 @@
         }
     }else{
         rootcontroller = [[LoginViewController alloc] init];
+
     }
 
     
