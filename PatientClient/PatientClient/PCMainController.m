@@ -60,11 +60,12 @@
 {
     _mainView = [[UIView alloc] init];
     _mainView.frame = self.leftView.frame;
-    [_mainView setBackgroundColor:[UIColor grayColor]];
+    [_mainView setBackgroundColor:[UIColor brownColor]];
     
     UITableView *tableView = [[UITableView alloc] init];
     tableView.frame = CGRectMake(10, 50, 205, 400);
     [tableView setBackgroundColor:[UIColor clearColor]];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.controlTableView = tableView;
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -94,12 +95,12 @@
     [viewController2.leftItem addTarget:self action:@selector(leftItemClick:) forControlEvents:UIControlEventTouchUpInside];
     PCMainModel *startNewChat = [[PCMainModel alloc] init];
     startNewChat.control = [[UINavigationController alloc] initWithRootViewController:viewController2];
-    startNewChat.title = @"Start New Chat";
+    startNewChat.title = @"New Chat";
     
     ResumeController *viewController3 = [[ResumeController alloc] init];
     PCMainModel *resumeChat = [[PCMainModel alloc] init];
     resumeChat.control = viewController3;
-    resumeChat.title = @"Resume Previous Chat";
+    resumeChat.title = @"Resume Chat";
     [viewController3.leftItem addTarget:self action:@selector(leftItemClick:) forControlEvents:UIControlEventTouchUpInside];
     resumeChat.control = [[UINavigationController alloc] initWithRootViewController:viewController3];
     

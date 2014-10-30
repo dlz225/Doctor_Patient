@@ -28,33 +28,42 @@
     self.userLabel = label1;
     [self.contentView addSubview:label1];
     
-    UILabel *label2 = [[UILabel alloc] init];
-    [label2 setNumberOfLines:0];
-    self.contentLabel = label2;
-    [self.contentView addSubview:label2];
+    UITextView *textview = [[UITextView alloc] init];
+    textview.editable = NO;
+    textview.bounces = NO;
+    textview.scrollsToTop = YES;
+//    textview.scrollEnabled = NO;
+    textview.contentSize = CGSizeMake(0, 0);
+    textview.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+    textview.contentOffset = CGPointMake(0, 10);
+    [textview setFont:[UIFont systemFontOfSize:15]];
+    self.contentTextView = textview;
+    [self addSubview:textview];
 }
 
 - (void)setIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dict = _dataArray[indexPath.row];
     self.userLabel.text = dict[@"user"];
-    self.contentLabel.text = dict[@"content"];
-    CGSize s = [NSString getSizeFromText:self.contentLabel.text ForFont:[UIFont systemFontOfSize:15] MaxSize:CGSizeMake(180, MAXFLOAT)];
+    self.contentTextView.text = dict[@"content"];
+    CGSize s = [NSString getSizeFromText:self.contentTextView.text ForFont:[UIFont systemFontOfSize:15] MaxSize:CGSizeMake(180, MAXFLOAT)];
     
     if (s.height <= 44) {
-        self.contentLabel.frame = CGRectMake(90, 0, 200, 44);
+        self.contentTextView.frame = CGRectMake(90, 2, [UIScreen mainScreen].bounds.size.width - 20 - 90 - 4, 40);
         self.userLabel.frame = CGRectMake(10,0, 80, 44);
     }
     else
     {
-        self.contentLabel.frame = CGRectMake(90, 0, 200, s.height + 10);
-        self.userLabel.frame = CGRectMake(10,0, 80, s.height + 10);
+        self.contentTextView.frame = CGRectMake(90, 0, [UIScreen mainScreen].bounds.size.width - 20 - 90 - 4, s.height + 18);
+        self.userLabel.frame = CGRectMake(10,0, 80, s.height + 15);
     }
+    [self.contentTextView scrollRangeToVisible:NSMakeRange([self.contentTextView.text length] - 1, 0)];
+
     
     //设置cell背景
     UIImageView *background = [[UIImageView alloc] init];
     // 设置cell背景为圆角
-    background.image = [[UIImage imageNamed:@"common_card_background@2x.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    background.image = [[UIImage imageNamed:@"common_card_background.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     self.backgroundView = background;
     
 }

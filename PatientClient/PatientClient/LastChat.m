@@ -27,7 +27,7 @@
 
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [UIImage imageNamed:@"navigationbar_back@2x.png"];
+    UIImage *image = [UIImage imageNamed:@"navigationbar_back.png"];
     [btn setBackgroundImage:image forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchDown];
     btn.bounds = (CGRect){CGPointZero,image.size};

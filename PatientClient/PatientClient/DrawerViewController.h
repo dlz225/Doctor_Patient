@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#define kLeftWidth 240
+#define kLeftWidth 200
 #define kRightWidth 150
 
 @interface DrawerViewController : UIViewController

@@ -11,6 +11,7 @@
 #import "StartChatController.h"
 #import "NSString+duan.h"
 #import "PCAPIClient.h"
+#import "PCAPIClient.h"
 
 #define kLabelHeight 44     
 #define kCellHeight 60
@@ -27,7 +28,6 @@
 @end
 
 @implementation HomeController
-
 
 - (id)init{
     self = [super init];
@@ -47,13 +47,6 @@
     [super viewDidLoad];
     
     [self addData];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // 设置基本属性
-//    [self initProperty];
-    
 }
 
 #pragma mark 设置基本属性
@@ -68,16 +61,15 @@
     
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [UIImage imageNamed:@"navigationbar_pop@2x.png"];
+    UIImage *image = [UIImage imageNamed:@"navigationbar_pop.png"];
     [btn setBackgroundImage:image forState:UIControlStateNormal];
-    UIImage *image2 = [UIImage imageNamed:@"navigationbar_pop_highlighted@2x.png"];
+    UIImage *image2 = [UIImage imageNamed:@"navigationbar_pop_highlighted.png"];
     [btn setBackgroundImage:image2 forState:UIControlStateHighlighted];
     btn.bounds = (CGRect){CGPointZero,image.size};
     self.leftItem = btn;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     
     // 右边按钮
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Action" style:UIBarButtonItemStylePlain target:self action:@selector(homeRightButton)];
     [self.view setBackgroundColor:[UIColor whiteColor]];
 }
 
@@ -85,9 +77,19 @@
 - (void)initProperty
 {
     // 初始化数组,创建假数据
-    NSArray *Arr = @[@"das的撒的飞阿尔穷人多发发发撒旦法撒旦法师法师的范德萨发",@"das的撒的飞阿尔穷人多发发发撒旦法撒旦法师法师的范德萨发das的撒的飞阿尔穷人多发发发撒旦法撒旦法师法师发发发撒旦法撒旦法师法师发发发撒旦法撒旦法师法师",@"das的撒的飞阿",@"das的撒的飞阿尔穷人多发发发撒旦法撒旦法师法师的范德萨发"];
-    _msgArray = [NSMutableArray arrayWithArray:Arr];
-    
+//    NSArray *Arr = @[@"das的撒的飞阿尔穷人多发发发撒旦法撒旦法师法师的范德萨发",@"das的撒的飞阿尔穷人多发发发撒旦法撒旦法师法师的范德萨发das的撒的飞阿尔穷人多发发发撒旦法撒旦法师法师发发发撒旦法撒旦法师法师发发发撒旦法撒旦法师法师",@"das的撒的飞阿",@"das的撒的飞阿",@"das的撒的飞阿",@"das的撒的飞阿尔穷人多发发发撒旦法撒旦法师法师的范德萨发"];
+//    _msgArray = [NSMutableArray arrayWithArray:Arr];
+    [[PCAPIClient sharedAPIClient] getPath:@"newsFlash!queryAllByPatientId" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"--------list----------");
+//        NSArray *arr = [NSArray arrayWithArray:responseObject[@"newsVoList"]];
+//        for (int i = 0; i < arr.count; i++) {
+//            NSLog(@"%@",arr[i]);
+//        }
+        NSLog(@"%@",responseObject[@"newsVoList"]);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"failure");
+    }];
     
     // 设置消息框标题
     self.titleLabel = [[UILabel alloc] init];
@@ -98,21 +100,8 @@
     [_titleLabel setTextAlignment:NSTextAlignmentCenter];
     [self.scrollView addSubview:self.titleLabel];
 
-    // 如果小于5，则可以全部显示出来，大于5要恢复弹簧效果
-    if (_msgArray.count <= 3)
-    {
-        // 设置消息
-        _msgTableView = [[UITableView alloc] initWithFrame:CGRectMake(kGap, _titleLabel.frame.origin.y + kLabelHeight , kTableViewWidth, _msgArray.count * kCellHeight) style:UITableViewStylePlain];
-        // 去掉弹簧效果
-        _msgTableView.bounces = NO;
-    }
-    else
-    {
-        // 设置消息
-        _msgTableView = [[UITableView alloc] initWithFrame:CGRectMake(kGap, _titleLabel.frame.origin.y + kLabelHeight , kTableViewWidth, 3 * kCellHeight) style:UITableViewStylePlain];
-        // 恢复弹簧效果
-        _msgTableView.bounces = YES;
-    }
+    // 设置消息
+    _msgTableView = [[UITableView alloc] initWithFrame:CGRectMake(kGap, _titleLabel.frame.origin.y + kLabelHeight , kTableViewWidth, [UIScreen mainScreen].bounds.size.height - 3 * kLabelHeight - CGRectGetMaxY(self.titleLabel.frame) - 40) style:UITableViewStylePlain];
 
     _msgTableView.dataSource = self;
     _msgTableView.delegate = self;
@@ -126,7 +115,7 @@
     startBtn.frame = CGRectMake(2 * kGap, _msgTableView.frame.origin.y + _msgTableView.frame.size.height + 20, kTableViewWidth - 2 *kGap, kButtonHeight);
     [startBtn setBackgroundColor:[UIColor blueColor]];
     [startBtn setTitle:@"Start New Chat" forState:UIControlStateNormal];
-    [startBtn.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:20]];
+    [startBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
     [self.scrollView addSubview:startBtn];
     self.startButton = startBtn;
     
@@ -146,12 +135,6 @@
     NSLog(@"左边按钮");
 }
 
-#pragma mark 消息信息
-- (void)homeRightButton
-{
-    NSLog(@"右边按钮");
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -168,13 +151,15 @@
     static NSString *cellIdentical = @"HomeCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentical];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentical];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentical];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     cell.textLabel.numberOfLines = 0;
     [cell.textLabel setFont:[UIFont systemFontOfSize:17]];
     cell.textLabel.text = _msgArray[indexPath.row];
-    
+    cell.detailTextLabel.textColor = [UIColor grayColor];
+    [cell.detailTextLabel setFont:[UIFont systemFontOfSize:13]];
+    cell.detailTextLabel.text = @"2014--10--22";
     return cell;
 }
 

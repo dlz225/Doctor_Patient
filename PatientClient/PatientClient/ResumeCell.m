@@ -60,11 +60,11 @@
     label5.numberOfLines = 0;
     label5.textAlignment = NSTextAlignmentCenter;
     [label5 setTextColor:[UIColor grayColor]];
-    [self.contentView addSubview:label5];
+    [self addSubview:label5];
     self.timeLabel = label5;
     
 }
- //   NSArray *Arr = @[@{@"doctor":@"Doctor A",@"subject":@"hello！！！",@"time":@"2014-10-01"},@{@"doctor":@"Doctor B",@"subject":@"wo cao！！！",@"time":@"2014-10-02"}];
+
 - (void)setIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dict = self.resumeArray[indexPath.row];

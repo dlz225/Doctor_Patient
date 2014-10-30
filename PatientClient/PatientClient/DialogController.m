@@ -45,7 +45,7 @@
 - (void)initNavigationUI
 {
     // 初始化数组
-    NSArray *Arr = @[@{@"user":@"Doctor A",@"content":@"hello！！！"},@{@"user":@"Doctor B",@"content":@"hddd"},@{@"user":@"Doctor C",@"content":@"hedsafeafewfsjflkeja;jflkjsdfewojojosdlfjljwoei"},@{@"user":@"Doctor D",@"content":@"heleeeeeeeeeeewerwerwqqweqweqweqweqweqweqweqweqweqweqwelo！！！"},];
+    NSArray *Arr = @[@{@"user":@"Doctor A",@"content":@"hello！！！"},@{@"user":@"Doctor B",@"content":@"hddd"},@{@"user":@"Doctor D",@"content":@"heleeeeeeeeeeewerwerwqqwgggggggweqweqwgggweqweqwelo！！！"}];
     _chatArray = [NSMutableArray arrayWithArray:Arr];
     
     // 标题
@@ -57,9 +57,9 @@
     
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [UIImage imageNamed:@"navigationbar_back@2x.png"];
+    UIImage *image = [UIImage imageNamed:@"navigationbar_back.png"];
     [btn setBackgroundImage:image forState:UIControlStateNormal];
-    UIImage *image2 = [UIImage imageNamed:@"navigationbar_back_highlighted@2x.png"];
+    UIImage *image2 = [UIImage imageNamed:@"navigationbar_back_highlighted.png"];
     [btn setBackgroundImage:image2 forState:UIControlStateSelected];
     btn.bounds = (CGRect){CGPointZero,image.size};
         [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
@@ -125,18 +125,19 @@
     [self.firstView addSubview:lab6];
     self.patientContentLabel = lab6;
     
-    // tableview
-    UITableView *tabView = [[UITableView alloc] initWithFrame:CGRectMake(kGap, 110, [UIScreen mainScreen].bounds.size.width - 2 * kGap, 500) style:UITableViewStylePlain];
-    // 去掉灰色下划线
-    tabView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tabView.dataSource = self;
-    tabView.delegate = self;
-    [self.scrollView addSubview:tabView];
-    self.chatTabView = tabView;
+    // enable video chat按钮
+    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn2.frame = CGRectMake(2 * kGap,[UIScreen mainScreen].bounds.size.height - 44 - 40 - 44, [UIScreen mainScreen].bounds.size.width - 4 * kGap, 44);
+    [btn2 setBackgroundColor:[UIColor blueColor]];
+    [btn2 setTitle:@"Enable Video Chat" forState:UIControlStateNormal];
+    [btn2.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+    [self.scrollView addSubview:btn2];
+    self.VideoChatBtn = btn2;
+    
     
     // take picture按钮
     UIButton *btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(2 * kGap, 360, [UIScreen mainScreen].bounds.size.width - 4 * kGap, 44);
+    btn1.frame = CGRectMake(2 * kGap, CGRectGetMinY(btn2.frame) - 44 - 20, [UIScreen mainScreen].bounds.size.width - 4 * kGap, 44);
     [btn1 setBackgroundColor:[UIColor blueColor]];
     [btn1 setTitle:@"Take Picture" forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(takePicAction) forControlEvents:UIControlEventTouchUpInside];
@@ -144,14 +145,16 @@
     [self.scrollView addSubview:btn1];
     self.takePicBtn = btn1;
     
-    // enable video chat按钮
-    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn2.frame = CGRectMake(2 * kGap, btn1.frame.origin.y + 44 + 20, [UIScreen mainScreen].bounds.size.width - 4 * kGap, 44);
-    [btn2 setBackgroundColor:[UIColor blueColor]];
-    [btn2 setTitle:@"Enable Video Chat" forState:UIControlStateNormal];
-    [btn2.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    [self.scrollView addSubview:btn2];
-    self.VideoChatBtn = btn2;
+
+    // tableview
+    UITableView *tabView = [[UITableView alloc] initWithFrame:CGRectMake(kGap, 110, [UIScreen mainScreen].bounds.size.width - 2 * kGap, [UIScreen mainScreen].bounds.size.height - CGRectGetMinY(self.takePicBtn.frame) - 25 + 8) style:UITableViewStylePlain];
+    tabView.contentSize = CGSizeMake(0, tabView.frame.size.height + 0.5);
+    // 去掉灰色下划线
+    tabView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tabView.dataSource = self;
+    tabView.delegate = self;
+    [self.scrollView addSubview:tabView];
+    self.chatTabView = tabView;
     
 }
 
@@ -198,6 +201,7 @@
     ChatCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentical];
     if (!cell) {
         cell = [[ChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentical];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.dataArray = _chatArray;
     }
     
@@ -215,7 +219,7 @@
     }
     else
     {
-        return siz.height + 15;
+        return siz.height + 20;
     }
 }
 

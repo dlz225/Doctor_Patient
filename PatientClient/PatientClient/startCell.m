@@ -30,8 +30,9 @@
     [self.contentView addSubview:label2];
     self.subject = label2;
     
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(210, 2, 80, 40)];
-    [self.contentView addSubview:imgView];
+    CGSize windowSize = [UIScreen mainScreen].bounds.size;
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(windowSize.width - 110, 2, 78, 40)];
+    [self addSubview:imgView];
     self.statesView = imgView;
 }
 
@@ -60,7 +61,6 @@
     
     
 }
-
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

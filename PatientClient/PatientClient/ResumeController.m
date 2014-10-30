@@ -36,9 +36,9 @@
     
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [UIImage imageNamed:@"navigationbar_pop@2x.png"];
+    UIImage *image = [UIImage imageNamed:@"navigationbar_pop.png"];
     [btn setBackgroundImage:image forState:UIControlStateNormal];
-    UIImage *image2 = [UIImage imageNamed:@"navigationbar_pop_highlighted@2x.png"];
+    UIImage *image2 = [UIImage imageNamed:@"navigationbar_pop_highlighted.png"];
     [btn setBackgroundImage:image2 forState:UIControlStateHighlighted];
     btn.bounds = (CGRect){CGPointZero,image.size};
     self.leftItem = btn;
@@ -71,7 +71,6 @@
     {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(rightButton)];
     }
-//    [self.tableView reloadData];
     
 }
 

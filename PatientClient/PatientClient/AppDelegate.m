@@ -32,7 +32,6 @@
     }
 
     
-//    self.window.rootViewController = [PCMainController shareMainViewController];
     [self.window makeKeyAndVisible];
     
     return YES;

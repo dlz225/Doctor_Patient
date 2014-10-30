@@ -12,7 +12,7 @@
 @interface UserCell : UITableViewCell
 
 @property (nonatomic,strong) UILabel *title;
-@property (nonatomic,strong) UITextField *content;
+@property (nonatomic,strong) UITextView *content;
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,strong) NSMutableArray *titleArray;
 @property (nonatomic,strong) NSMutableArray *contentArray;

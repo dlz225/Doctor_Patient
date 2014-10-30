@@ -11,7 +11,7 @@
 @interface ChatCell : UITableViewCell
 
 @property (nonatomic,strong) UILabel *userLabel;
-@property (nonatomic,strong) UILabel *contentLabel;
+@property (nonatomic,strong) UITextView *contentTextView;
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 @end

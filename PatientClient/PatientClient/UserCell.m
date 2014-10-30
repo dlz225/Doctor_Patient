@@ -30,10 +30,10 @@
     self.title = label;
     [self.contentView addSubview:label];
     
-    UITextField *field = [[UITextField alloc] init];
-    [field setFont:[UIFont systemFontOfSize:15]];
-    self.content = field;
-    [self.contentView addSubview:field];
+    UITextView *textview = [[UITextView alloc] init];
+    [textview setFont:[UIFont systemFontOfSize:15]];
+    self.content = textview;
+    [self.contentView addSubview:textview];
     
 }
 
@@ -47,7 +47,7 @@
 
     if (s.height <= 44) {
         self.title.frame = CGRectMake(10, 0, 100, 44);
-        self.content.frame = CGRectMake(110, 0, [UIScreen mainScreen].bounds.size.width - 110 - 30, 44);
+        self.content.frame = CGRectMake(110, 4, [UIScreen mainScreen].bounds.size.width - 110 - 30, 36);
     }
     else
     {

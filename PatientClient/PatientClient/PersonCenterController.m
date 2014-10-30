@@ -14,7 +14,7 @@
 #define kCellHeight 40
 #define kGap 13
 
-@interface PersonCenterController () <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate>
+@interface PersonCenterController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate>
 
 @property (nonatomic,strong) UILabel *userNameLabel;
 //@property (nonatomic,strong) UILabel *userRealNameLabel;
@@ -59,9 +59,9 @@
     
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [UIImage imageNamed:@"navigationbar_pop@2x.png"];
+    UIImage *image = [UIImage imageNamed:@"navigationbar_pop.png"];
     [btn setBackgroundImage:image forState:UIControlStateNormal];
-    UIImage *image2 = [UIImage imageNamed:@"navigationbar_pop_highlighted@2x.png"];
+    UIImage *image2 = [UIImage imageNamed:@"navigationbar_pop_highlighted.png"];
     [btn setBackgroundImage:image2 forState:UIControlStateHighlighted];
     btn.bounds = (CGRect){CGPointZero,image.size};
 //    [btn addTarget:self action:@selector(personCenterLeftButton) forControlEvents:UIControlEventTouchUpInside];
@@ -143,7 +143,6 @@
     
     // 设置性别
     UITextField *f2 = [[UITextField alloc] initWithFrame:CGRectMake(120, kGap + 40, 80,kCellHeight)];
-    f2.text = @"famle";
     [f2 setFont:[UIFont systemFontOfSize:17]];
     f2.enabled = NO;
     [self.firstView addSubview:f2];
@@ -245,8 +244,7 @@
         blockself.userDict = [NSMutableDictionary dictionaryWithDictionary:responseObject[@"patientInfo"]];
         blockself.personArray = [NSMutableArray arrayWithObjects:blockself.userDict[@"patientName"],blockself.userDict[@"patientBirth"],blockself.userDict[@"patientTel"],blockself.userDict[@"patientEmail"],blockself.userDict[@"patientAddress"],nil];
         
-        // 初始化titleArray
-        
+        // 在这里设置相应的属性
         dispatch_async(dispatch_get_main_queue(), ^{
             [blockself initTitleArray];
             blockself.sexTextField.text = [blockself.userDict objectForKey:@"patientSex"];
@@ -285,17 +283,20 @@
     }
 
     cell.indexPath = indexPath;
-    cell.content.enabled = _canEdit;
+    cell.content.editable = _canEdit;
     cell.content.tag = indexPath.row;
     cell.content.delegate = self;
-    if (cell.content.enabled == YES) {
-        cell.content.borderStyle =UITextBorderStyleBezel;
+    if (cell.content.editable == YES) {
+        // 设置边框
+        cell.content.layer.borderWidth = 1.0;
+        cell.content.layer.borderColor = [[UIColor grayColor] CGColor];
+        cell.content.layer.cornerRadius = 5.0;
     }
     else
     {
-        cell.content.borderStyle =UITextBorderStyleNone;
+        cell.content.layer.borderWidth = 0;
     }
-    
+
     return cell;
 }
 
@@ -306,17 +307,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSString *str = self.personArray[indexPath.row];
-//    CGSize siz = [NSString getSizeFromText:str ForFont:[UIFont systemFontOfSize:15] MaxSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 110 - 30, MAXFLOAT)];
-//    if (siz.height + 15 <= 44) {
-//        return 44;
-//    }
-//    else
-//    {
-//        return siz.height + 15;
-//    }
-    
-    return 44;
+    NSString *str = self.personArray[indexPath.row];
+    CGSize siz = [NSString getSizeFromText:str ForFont:[UIFont systemFontOfSize:15] MaxSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 110 - 30, MAXFLOAT)];
+    if (siz.height + 15 <= 44) {
+        return 44;
+    }
+    else
+    {
+        return siz.height + 15;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -324,89 +323,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark -- textfiled delegate method
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+#pragma mark - textview delegate method
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    [self.personArray replaceObjectAtIndex:textField.tag withObject:textField.text];
+    [self.personArray replaceObjectAtIndex:textView.tag withObject:textView.text];
     return YES;
 }
-//- (void)modifyContent:(id)sender
-//{
-//    static NSIndexPath *lastIndexPath = nil;
-//    
-//    // 1.获取cell及indexPath
-//    UserCell *viewCell = (UserCell *)[sender superview];
-//    NSIndexPath *indexpath = [self.tableView indexPathForCell:viewCell];
-//    // 2.设置相关属性
-//    
-//    if (lastIndexPath == nil) {
-//        viewCell.content.enabled = YES;
-//        [viewCell.content selectAll:viewCell.content];
-//    }
-//    else if (lastIndexPath == indexpath)
-//    {
-//        viewCell.content.enabled = NO;
-//
-//    }
-//    else
-//    {
-//        UserCell *Cell = (UserCell *)[self.tableView cellForRowAtIndexPath:lastIndexPath];
-//        Cell.content.enabled = NO;
-//        viewCell.content.enabled = YES;
-//
-//        [viewCell.content selectAll:viewCell.content];
-//    }
-//    
-//    // 3.当点击下一个时，保存现在的属性
-//    _personArray[indexpath.row] = viewCell.content.text;
-//    lastIndexPath = indexpath;
-//    NSLog(@"now--%@//last--%@",_personArray[indexpath.row],_personArray[0]);
-//    //    viewCell.content.enabled = YES;
-//    
-//}
-
-// Override to support conditional editing of the table view.
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-//    // Return NO if you do not want the specified item to be editable.
-//    return YES;
-//}
-
-
-
-// Override to support editing the table view.
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        // Delete the row from the data source
-//        
-//    
-//    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-//        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-//        
-//    }   
-//}
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

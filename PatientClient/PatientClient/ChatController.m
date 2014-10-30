@@ -11,10 +11,10 @@
 #import "ChatCell.h"
 #define kGap 10
 
-@interface ChatController () <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface ChatController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>
 
 @property (nonatomic,strong) UIView *inputView;
-@property (nonatomic,strong) UITextField *inputField;   // 输入框
+@property (nonatomic,strong) UITextView *inputTextView;   // 输入框
 @property (nonatomic,strong) UIButton *sendBtn;     // 发送按钮
 @property (nonatomic,strong) UITableView *chatTabView;
 @property (nonatomic,strong) NSMutableArray *chatArray;
@@ -51,9 +51,9 @@
 
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [UIImage imageNamed:@"navigationbar_back@2x.png"];
+    UIImage *image = [UIImage imageNamed:@"navigationbar_back.png"];
     [btn setBackgroundImage:image forState:UIControlStateNormal];
-    UIImage *image2 = [UIImage imageNamed:@"navigationbar_back_highlighted@2x.png"];
+    UIImage *image2 = [UIImage imageNamed:@"navigationbar_back_highlighted.png"];
     [btn setBackgroundImage:image2 forState:UIControlStateSelected];
     btn.bounds = (CGRect){CGPointZero,image.size};
     [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
@@ -81,7 +81,7 @@
 {
     
     // tableview
-    UITableView *tabView = [[UITableView alloc] initWithFrame:CGRectMake(kGap, 10, [UIScreen mainScreen].bounds.size.width - 2 * kGap, [UIScreen mainScreen].bounds.size.height - 44 - 90) style:UITableViewStylePlain];
+    UITableView *tabView = [[UITableView alloc] initWithFrame:CGRectMake(kGap, 10, [UIScreen mainScreen].bounds.size.width - 2 * kGap, [UIScreen mainScreen].bounds.size.height - 44 - 90 + 8) style:UITableViewStylePlain];
     // 去掉灰色下划线
     tabView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tabView.dataSource = self;
@@ -91,17 +91,22 @@
     
     // 输入栏
     UIView *v1 = [[UIView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].applicationFrame.size.height - 44 - 44, [UIScreen mainScreen].bounds.size.width, 44)];
-//    [v1 setBackgroundColor:[UIColor redColor]];
+    [v1 setBackgroundColor:[UIColor colorWithRed:28 / 255 green:184 / 255 blue:255 / 255 alpha:0.5]];
     [self.scrollView addSubview:v1];
     self.inputView = v1;
     
-    UITextField *field = [[UITextField alloc] initWithFrame:CGRectMake(2 * kGap, 7, [UIScreen mainScreen].bounds.size.width - 90, 30)];
-    field.borderStyle = UITextBorderStyleRoundedRect;
-    // 设置提示文字
-    field.placeholder = @"Please Input...";
-    field.delegate = self;
-    [self.inputView addSubview:field];
-    self.inputField = field;
+    UITextView *textview = [[UITextView alloc] initWithFrame:CGRectMake(2 * kGap, 7, [UIScreen mainScreen].bounds.size.width - 90, 30)];
+    // 设置textview边框
+    textview.layer.borderWidth = 1.0;
+    textview.layer.borderColor = [[UIColor grayColor] CGColor];
+    textview.layer.cornerRadius = 5.0;
+    [textview setFont:[UIFont systemFontOfSize:17]];
+    textview.contentInset = UIEdgeInsetsZero;
+    // 自适应高度
+//    textview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    textview.delegate = self;
+    [self.inputView addSubview:textview];
+    self.inputTextView = textview;
     
     // Send Button
     UIButton *btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -123,13 +128,8 @@
 
 - (void)send
 {
-    NSLog(@"%@",self.inputField.text);
+    NSLog(@"%@",self.self.inputTextView.text);
 }
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-}
-
 
 #pragma mark ---触摸关闭键盘----
 -(void)handleTap:(UIGestureRecognizer *)gesture
@@ -191,6 +191,7 @@
     return cell;
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *str = _chatArray[indexPath.row][@"content"];
@@ -200,8 +201,44 @@
     }
     else
     {
-        return siz.height + 15;
+        return siz.height + 12 + 8;
     }
+}
+
+// initWithFrame:CGRectMake(2 * kGap, 7, [UIScreen mainScreen].bounds.size.width - 90, 30)
+
+// 0, [UIScreen mainScreen].applicationFrame.size.height - 44 - 44, [UIScreen mainScreen].bounds.size.width, 44)
+#pragma mark textview 计算文字高度改变控件高度
+- (void)textViewDidChange:(UITextView *)textView
+{
+    UIFont *font = [UIFont systemFontOfSize:17];
+    CGSize size = [NSString getSizeFromText:textView.text ForFont:font MaxSize:CGSizeMake(self.inputTextView.frame.size.width - 10, 90)];
+    
+    // 内容为2行时
+    if (((int)size.height) / 20 == 2) {
+
+        [self.sendBtn setFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 64 ,17,50,30)];
+        [self.inputView setFrame:CGRectMake(0, [UIScreen mainScreen].applicationFrame.size.height - 44 - 44 - 15, [UIScreen mainScreen].bounds.size.width, size.height + 30)];
+        [self.inputTextView setFrame:CGRectMake(2 * kGap, 7,[UIScreen mainScreen].bounds.size.width - 90 , 45)];
+
+    }
+    // [UIScreen mainScreen].bounds.size.width - 64,7,50,30
+    // 内容大于2行时，显示3行内容
+    else if (((int)size.height) / 20 > 2)
+    {
+        [self.sendBtn setFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 64 ,27,50,30)];
+        [self.inputView setFrame:CGRectMake(0, [UIScreen mainScreen].applicationFrame.size.height - 44 - 44 - 35, [UIScreen mainScreen].bounds.size.width, size.height + 30)];
+        [self.inputTextView setFrame:CGRectMake(2 * kGap, 7,[UIScreen mainScreen].bounds.size.width - 90 , 65)];
+    }
+    // 内容为1行时
+    else
+    {
+        [self.inputView setFrame:CGRectMake(0, [UIScreen mainScreen].applicationFrame.size.height - 44 - 44, [UIScreen mainScreen].bounds.size.width, size.height + 30)];
+        [self.inputTextView setFrame:CGRectMake(2 * kGap, 7,[UIScreen mainScreen].bounds.size.width - 90 , 30)];
+
+    }
+    [self.inputTextView scrollRangeToVisible:NSMakeRange([self.inputTextView.text length] - 1, 0)];
+
 }
 
 - (void)viewDidLoad {
