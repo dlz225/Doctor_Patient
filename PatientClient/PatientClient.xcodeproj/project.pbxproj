@@ -12,6 +12,9 @@
 		6E7A6C4B19F29F7F00D0F4D5 /* PCMainModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7A6C4A19F29F7F00D0F4D5 /* PCMainModel.m */; };
 		6E7A6C5119F2B1AA00D0F4D5 /* DrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7A6C5019F2B1AA00D0F4D5 /* DrawerViewController.m */; };
 		6EAE50DA19FF937100CE1CA9 /* NewsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAE50D919FF937100CE1CA9 /* NewsCell.m */; };
+		6EAF10BA1A01F54400F4EEE6 /* UIScrollView+AH3DPullRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAF10B91A01F54400F4EEE6 /* UIScrollView+AH3DPullRefresh.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6EAF10BD1A01F54F00F4EEE6 /* UItils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAF10BC1A01F54F00F4EEE6 /* UItils.m */; };
+		6EAFD5F31A04F45600C85575 /* QuestionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAFD5F21A04F45600C85575 /* QuestionCell.m */; };
 		6EAFDABC19FA8A9A00F69E9D /* ChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAFDAB919FA8A9A00F69E9D /* ChatCell.m */; };
 		6EAFDABD19FA8A9A00F69E9D /* ChatController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAFDABB19FA8A9A00F69E9D /* ChatController.m */; };
 		6EAFDAC019FA8AB100F69E9D /* DialogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAFDABF19FA8AB100F69E9D /* DialogController.m */; };
@@ -26,8 +29,11 @@
 		6EB3511819F7A958002E16AF /* startCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB3511719F7A958002E16AF /* startCell.m */; };
 		6EB4E8F819F3AB0300262FBF /* HomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4E8F719F3AB0300262FBF /* HomeController.m */; };
 		6EB6856D19F745450041D5C8 /* StartChatController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB6856C19F745450041D5C8 /* StartChatController.m */; };
+		6EBA30641A03863900861E28 /* SearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EBA30631A03863900861E28 /* SearchController.m */; };
 		6ECA693319F4A45000D1C185 /* PersonCenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA693219F4A45000D1C185 /* PersonCenterController.m */; };
 		6ECA693619F4A7C000D1C185 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA693519F4A7C000D1C185 /* User.m */; };
+		6EF44D511A0615390031DAE1 /* PCWaitingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF44D501A0615390031DAE1 /* PCWaitingController.m */; };
+		6EF44D551A06175A0031DAE1 /* WaitingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF44D541A06175A0031DAE1 /* WaitingCell.m */; };
 		A725107819FA08CA000D2A2E /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A725106619FA08CA000D2A2E /* AFHTTPClient.m */; };
 		A725107A19FA08CA000D2A2E /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A725106A19FA08CA000D2A2E /* AFImageRequestOperation.m */; };
 		A725107B19FA08CA000D2A2E /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A725106C19FA08CA000D2A2E /* AFJSONRequestOperation.m */; };
@@ -79,6 +85,12 @@
 		6E7A6C5019F2B1AA00D0F4D5 /* DrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerViewController.m; sourceTree = "<group>"; };
 		6EAE50D819FF937100CE1CA9 /* NewsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsCell.h; sourceTree = "<group>"; };
 		6EAE50D919FF937100CE1CA9 /* NewsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsCell.m; sourceTree = "<group>"; };
+		6EAF10B81A01F54400F4EEE6 /* UIScrollView+AH3DPullRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+AH3DPullRefresh.h"; path = "../../DoctorClient/DoctorClient/UIScrollView+AH3DPullRefresh.h"; sourceTree = "<group>"; };
+		6EAF10B91A01F54400F4EEE6 /* UIScrollView+AH3DPullRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+AH3DPullRefresh.m"; path = "../../DoctorClient/DoctorClient/UIScrollView+AH3DPullRefresh.m"; sourceTree = "<group>"; };
+		6EAF10BB1A01F54F00F4EEE6 /* UItils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UItils.h; path = ../../DoctorClient/DoctorClient/UItils.h; sourceTree = "<group>"; };
+		6EAF10BC1A01F54F00F4EEE6 /* UItils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UItils.m; path = ../../DoctorClient/DoctorClient/UItils.m; sourceTree = "<group>"; };
+		6EAFD5F11A04F45600C85575 /* QuestionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionCell.h; sourceTree = "<group>"; };
+		6EAFD5F21A04F45600C85575 /* QuestionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionCell.m; sourceTree = "<group>"; };
 		6EAFDAB819FA8A9A00F69E9D /* ChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatCell.h; sourceTree = "<group>"; };
 		6EAFDAB919FA8A9A00F69E9D /* ChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatCell.m; sourceTree = "<group>"; };
 		6EAFDABA19FA8A9A00F69E9D /* ChatController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatController.h; sourceTree = "<group>"; };
@@ -108,10 +120,16 @@
 		6EB6856C19F745450041D5C8 /* StartChatController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartChatController.m; sourceTree = "<group>"; };
 		6EB6857A19F7555B0041D5C8 /* LastChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastChat.h; sourceTree = "<group>"; };
 		6EB6857B19F7555B0041D5C8 /* LastChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastChat.m; sourceTree = "<group>"; };
+		6EBA30621A03863900861E28 /* SearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchController.h; sourceTree = "<group>"; };
+		6EBA30631A03863900861E28 /* SearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchController.m; sourceTree = "<group>"; };
 		6ECA693119F4A45000D1C185 /* PersonCenterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonCenterController.h; sourceTree = "<group>"; };
 		6ECA693219F4A45000D1C185 /* PersonCenterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonCenterController.m; sourceTree = "<group>"; };
 		6ECA693419F4A7C000D1C185 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		6ECA693519F4A7C000D1C185 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		6EF44D4F1A0615390031DAE1 /* PCWaitingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCWaitingController.h; sourceTree = "<group>"; };
+		6EF44D501A0615390031DAE1 /* PCWaitingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCWaitingController.m; sourceTree = "<group>"; };
+		6EF44D531A06175A0031DAE1 /* WaitingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingCell.h; sourceTree = "<group>"; };
+		6EF44D541A06175A0031DAE1 /* WaitingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingCell.m; sourceTree = "<group>"; };
 		A725106519FA08CA000D2A2E /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		A725106619FA08CA000D2A2E /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		A725106719FA08CA000D2A2E /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -181,6 +199,10 @@
 		6E41030B19F20CD3002F6ECE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				6EAF10BB1A01F54F00F4EEE6 /* UItils.h */,
+				6EAF10BC1A01F54F00F4EEE6 /* UItils.m */,
+				6EAF10B81A01F54400F4EEE6 /* UIScrollView+AH3DPullRefresh.h */,
+				6EAF10B91A01F54400F4EEE6 /* UIScrollView+AH3DPullRefresh.m */,
 				6E7A6C4F19F2B1AA00D0F4D5 /* DrawerViewController.h */,
 				6E7A6C5019F2B1AA00D0F4D5 /* DrawerViewController.m */,
 			);
@@ -219,6 +241,8 @@
 				6ECA693019F4A41900D1C185 /* 3_PersonCenter */,
 				6E509AEE19F5FEA50067A734 /* 4_ResumeController */,
 				6EB6856A19F741F90041D5C8 /* 5_StartChatController */,
+				6EBA30611A0385F800861E28 /* 6_SearchController */,
+				6EF44D521A06171E0031DAE1 /* 7_PCWaitingController */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -355,8 +379,19 @@
 				6EB6856C19F745450041D5C8 /* StartChatController.m */,
 				6EB3511619F7A958002E16AF /* startCell.h */,
 				6EB3511719F7A958002E16AF /* startCell.m */,
+				6EAFD5F11A04F45600C85575 /* QuestionCell.h */,
+				6EAFD5F21A04F45600C85575 /* QuestionCell.m */,
 			);
 			name = 5_StartChatController;
+			sourceTree = "<group>";
+		};
+		6EBA30611A0385F800861E28 /* 6_SearchController */ = {
+			isa = PBXGroup;
+			children = (
+				6EBA30621A03863900861E28 /* SearchController.h */,
+				6EBA30631A03863900861E28 /* SearchController.m */,
+			);
+			name = 6_SearchController;
 			sourceTree = "<group>";
 		};
 		6ECA693019F4A41900D1C185 /* 3_PersonCenter */ = {
@@ -368,6 +403,17 @@
 				6ECA693519F4A7C000D1C185 /* User.m */,
 			);
 			name = 3_PersonCenter;
+			sourceTree = "<group>";
+		};
+		6EF44D521A06171E0031DAE1 /* 7_PCWaitingController */ = {
+			isa = PBXGroup;
+			children = (
+				6EF44D4F1A0615390031DAE1 /* PCWaitingController.h */,
+				6EF44D501A0615390031DAE1 /* PCWaitingController.m */,
+				6EF44D531A06175A0031DAE1 /* WaitingCell.h */,
+				6EF44D541A06175A0031DAE1 /* WaitingCell.m */,
+			);
+			name = 7_PCWaitingController;
 			sourceTree = "<group>";
 		};
 		A725106419FA08CA000D2A2E /* AFNetworking */ = {
@@ -511,8 +557,10 @@
 				6EAFDABC19FA8A9A00F69E9D /* ChatCell.m in Sources */,
 				6EAE50DA19FF937100CE1CA9 /* NewsCell.m in Sources */,
 				A725108819FA1065000D2A2E /* ResumeCell.m in Sources */,
+				6EAF10BA1A01F54400F4EEE6 /* UIScrollView+AH3DPullRefresh.m in Sources */,
 				A725108919FA1065000D2A2E /* LastChat.m in Sources */,
 				A725108719FA1051000D2A2E /* AFHTTPRequestOperation.m in Sources */,
+				6EF44D551A06175A0031DAE1 /* WaitingCell.m in Sources */,
 				A725107E19FA08CA000D2A2E /* AFURLConnectionOperation.m in Sources */,
 				A725107A19FA08CA000D2A2E /* AFImageRequestOperation.m in Sources */,
 				6EB34A4919F20633002C5F8D /* ViewController.m in Sources */,
@@ -523,12 +571,15 @@
 				6EAFDABD19FA8A9A00F69E9D /* ChatController.m in Sources */,
 				6EAFDAC319FA8AE400F69E9D /* NSString+duan.m in Sources */,
 				A725109019FA110D000D2A2E /* AccountTool.m in Sources */,
+				6EAFD5F31A04F45600C85575 /* QuestionCell.m in Sources */,
 				6EB3511819F7A958002E16AF /* startCell.m in Sources */,
 				6EB6856D19F745450041D5C8 /* StartChatController.m in Sources */,
+				6EAF10BD1A01F54F00F4EEE6 /* UItils.m in Sources */,
 				A725109619FA1152000D2A2E /* UserCell.m in Sources */,
 				6ECA693619F4A7C000D1C185 /* User.m in Sources */,
 				A725107B19FA08CA000D2A2E /* AFJSONRequestOperation.m in Sources */,
 				6E41031719F21050002F6ECE /* PCMainController.m in Sources */,
+				6EBA30641A03863900861E28 /* SearchController.m in Sources */,
 				A725108019FA08CA000D2A2E /* UIImageView+AFNetworking.m in Sources */,
 				6EB34A4619F20633002C5F8D /* AppDelegate.m in Sources */,
 				A725107819FA08CA000D2A2E /* AFHTTPClient.m in Sources */,
@@ -536,6 +587,7 @@
 				A725107D19FA08CA000D2A2E /* AFPropertyListRequestOperation.m in Sources */,
 				6E7A6C5119F2B1AA00D0F4D5 /* DrawerViewController.m in Sources */,
 				6EB34A4319F20633002C5F8D /* main.m in Sources */,
+				6EF44D511A0615390031DAE1 /* PCWaitingController.m in Sources */,
 				6E7A6C4B19F29F7F00D0F4D5 /* PCMainModel.m in Sources */,
 				6ECA693319F4A45000D1C185 /* PersonCenterController.m in Sources */,
 				6E509AF119F602110067A734 /* ResumeController.m in Sources */,

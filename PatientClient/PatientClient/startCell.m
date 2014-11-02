@@ -31,7 +31,10 @@
     self.subject = label2;
     
     CGSize windowSize = [UIScreen mainScreen].bounds.size;
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(windowSize.width - 110, 2, 78, 40)];
+    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(windowSize.width - 85, 2, 80, 40)];
+    // 设置成圆角
+    [imgView.layer setMasksToBounds:YES];
+    [imgView.layer setCornerRadius:5];
     [self addSubview:imgView];
     self.statesView = imgView;
 }

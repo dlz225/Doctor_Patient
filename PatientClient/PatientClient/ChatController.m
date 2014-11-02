@@ -205,9 +205,7 @@
     }
 }
 
-// initWithFrame:CGRectMake(2 * kGap, 7, [UIScreen mainScreen].bounds.size.width - 90, 30)
 
-// 0, [UIScreen mainScreen].applicationFrame.size.height - 44 - 44, [UIScreen mainScreen].bounds.size.width, 44)
 #pragma mark textview 计算文字高度改变控件高度
 - (void)textViewDidChange:(UITextView *)textView
 {

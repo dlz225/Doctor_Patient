@@ -12,18 +12,20 @@
 #import "NSString+duan.h"
 #import "PCAPIClient.h"
 #import "PCAPIClient.h"
+#import "UIScrollView+AH3DPullRefresh.h"
 
 #define kLabelHeight 44     
 #define kCellHeight 60
 #define kGap 10     // 设置屏幕两边的间距
 #define kTableViewWidth [UIScreen mainScreen].bounds.size.width-2*kGap
-#define kButtonHeight 50
+#define kButtonHeight 40
 
 @interface HomeController () <UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,strong) UILabel *titleLabel;
 @property (nonatomic,strong) UITableView *msgTableView;
 @property (nonatomic,strong) NSMutableArray *msgArray;
+@property (nonatomic,strong) UIView *titleView;
 
 @end
 
@@ -47,6 +49,11 @@
     [super viewDidLoad];
     
     [self addData];
+    
+    // 判断是否是ios7以上，调整下拉刷新的边界
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 #pragma mark 设置基本属性
@@ -54,10 +61,6 @@
 - (void)initNavigationUI
 {
     self.title = @"TeleMedicine";
-    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
-    // 设置滚动size
-    self.scrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 1);
-    [self.view addSubview:self.scrollView];
     
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -96,39 +99,67 @@
     _titleLabel.text = @"NEWSFLASH";
     [self.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
     CGRect windowBounds = [UIScreen mainScreen].bounds;
-    _titleLabel.frame = CGRectMake(0, windowBounds.size.height * 0.13, windowBounds.size.width, kLabelHeight);
+    // titleLabel 区域及其背景
+    UIView *vi = [[UIView alloc] initWithFrame:CGRectMake(0, 0, windowBounds.size.width, kLabelHeight)];
+    [vi setBackgroundColor:[UIColor colorWithRed:240/255 green:240/255 blue:240/255 alpha:0.01]];
+    [self.view addSubview:vi];
+    self.titleView = vi;
+    _titleLabel.frame = CGRectMake(0, windowBounds.size.height * 0.01, windowBounds.size.width, kLabelHeight);
     [_titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.scrollView addSubview:self.titleLabel];
+    [self.titleView addSubview:self.titleLabel];
 
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_titleLabel.frame),[UIScreen mainScreen].bounds.size.width , [UIScreen mainScreen].bounds.size.height - CGRectGetMaxY(_titleLabel.frame))];
+    // 设置滚动size
+    self.scrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 1);
+    [self.view addSubview:self.scrollView];
+    
+    // Resume按钮
+    UIButton *ResumeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    ResumeBtn.frame = CGRectMake(2 * kGap,self.scrollView.frame.size.height - kButtonHeight - 65 - 20, kTableViewWidth - 2 *kGap, kButtonHeight);
+    [ResumeBtn setBackgroundColor:[UIColor blueColor]];
+    [ResumeBtn setTitle:@"Resume Previous Chat" forState:UIControlStateNormal];
+    [ResumeBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
+    [self.scrollView addSubview:ResumeBtn];
+    self.resumeButton = ResumeBtn;
+    
+    // start按钮
+    UIButton *startBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    startBtn.frame = CGRectMake(2 * kGap,CGRectGetMinY(ResumeBtn.frame) - kButtonHeight - 10, kTableViewWidth - 2 *kGap, kButtonHeight);
+    [startBtn setBackgroundColor:[UIColor blueColor]];
+    [startBtn setTitle:@"Start New Chat" forState:UIControlStateNormal];
+    [startBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
+    [self.scrollView addSubview:startBtn];
+    self.startButton = startBtn;
+    
     // 设置消息
-    _msgTableView = [[UITableView alloc] initWithFrame:CGRectMake(kGap, _titleLabel.frame.origin.y + kLabelHeight , kTableViewWidth, [UIScreen mainScreen].bounds.size.height - 3 * kLabelHeight - CGRectGetMaxY(self.titleLabel.frame) - 40) style:UITableViewStylePlain];
+    _msgTableView = [[UITableView alloc] initWithFrame:CGRectMake(kGap,0, kTableViewWidth, CGRectGetMinY(startBtn.frame) - kGap) style:UITableViewStylePlain];
 
     _msgTableView.dataSource = self;
     _msgTableView.delegate = self;
     // 去掉灰色下划线
-    _msgTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    _msgTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.scrollView addSubview:_msgTableView];
-    
-    // start按钮
-    UIButton *startBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    startBtn.frame = CGRectMake(2 * kGap, _msgTableView.frame.origin.y + _msgTableView.frame.size.height + 20, kTableViewWidth - 2 *kGap, kButtonHeight);
-    [startBtn setBackgroundColor:[UIColor blueColor]];
-    [startBtn setTitle:@"Start New Chat" forState:UIControlStateNormal];
-    [startBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    [self.scrollView addSubview:startBtn];
-    self.startButton = startBtn;
-    
-    // Resume按钮
-    UIButton *ResumeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    ResumeBtn.frame = CGRectMake(2 * kGap, startBtn.frame.origin.y + kButtonHeight + 20, kTableViewWidth - 2 *kGap, kButtonHeight);
-    [ResumeBtn setBackgroundColor:[UIColor blueColor]];
-    [ResumeBtn setTitle:@"Resume Previous Chat" forState:UIControlStateNormal];
-    [ResumeBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    [self.scrollView addSubview:ResumeBtn];
-    self.resumeButton = ResumeBtn;
-}
+    // 下拉刷新
+    __unsafe_unretained HomeController *blockSelf = self;
+    [self.scrollView setPullToRefreshHandler:^{
+        [blockSelf pullToRefresh];
+    }];
+    [self.scrollView setPullToRefreshViewActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.scrollView setPullToRefreshViewPullingText:@"pull loading..."];
+    [self.scrollView setPullToRefreshViewReleaseText:@"let go load..."];
+    [self.scrollView setPullToRefreshViewLoadingText:@"loading..."];
+    [self.scrollView setPullToRefreshViewLoadedText:@""];
 
+}
+- (void)pullToRefresh{
+    __block HomeController *blockself =self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [blockself addData];
+        [blockself.scrollView refreshFinished];
+    });
+    
+}
 
 - (void)homeLeftButton
 {
@@ -144,7 +175,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return _msgArray.count;
+//    return _msgArray.count;
+    return 18;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

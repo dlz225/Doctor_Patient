@@ -8,7 +8,8 @@
 
 #import "ResumeController.h"
 #import "ResumeCell.h"
-#import "LastChat.h"
+#import "ChatController.h"
+#import "UIScrollView+AH3DPullRefresh.h"
 
 @interface ResumeController ()
 
@@ -23,7 +24,6 @@
 {
     if (self = [super initWithStyle:style]) {
         [self initUI];
-        [self addData];
         self.canEdit = NO;
     }
     return self;
@@ -32,7 +32,7 @@
 - (void)initUI
 {
     // 标题
-    self.title = @"Previous Chat";
+    self.title = @"Chat";
     
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -48,13 +48,65 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(rightButton)];
 
     self.tableView.userInteractionEnabled = YES;
+    
+    // 下拉刷新
+    __unsafe_unretained ResumeController *blockSelf = self;
+    [self.tableView setPullToRefreshHandler:^{
+        [blockSelf pullToRefresh];
+    }];
+    [self.tableView setPullToRefreshViewActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.tableView setPullToRefreshViewPullingText:@"pull loading..."];
+    [self.tableView setPullToRefreshViewReleaseText:@"let go load..."];
+    [self.tableView setPullToRefreshViewLoadingText:@"loading..."];
+    [self.tableView setPullToRefreshViewLoadedText:@""];
+    
+
+}
+
+- (void)pullToRefresh{
+    __block ResumeController *blockself =self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [blockself addData];
+        [blockself.tableView reloadData];
+        [blockself.tableView refreshFinished];
+    });
+    
 }
 
 - (void)addData
 {
     // 初始化数组
-    NSArray *Arr = @[@{@"doctor":@"Doctor A",@"subject":@"hello！！！",@"time":@"2014-10-01"},@{@"doctor":@"Doctor B",@"subject":@"wo hjkkkjhk",@"time":@"2014-10-02"},@{@"doctor":@"Doctor c",@"subject":@"wo hjkkkjhk",@"time":@"2014-10-02"},@{@"doctor":@"Doctor d",@"subject":@"wo hjkkkjhk",@"time":@"2014-10-02"}];
-    self.dataArray = [NSMutableArray arrayWithArray:Arr];
+    _dataArray = [NSMutableArray array];
+    for (int i = 0; i < 1; i++) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:@"Doctor A" forKey:@"doctor"];
+        [dict setObject:@"hello！！！" forKey:@"subject"];
+        [dict setObject:@"11" forKey:@"newMsg"];
+        [dict setObject:@"2014-10-02" forKey:@"time"];
+        [dict setObject:@"on" forKey:@"state"];
+
+        [_dataArray addObject:dict];
+    }
+    for (int i = 0; i < 1; i++) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:@"Doctor B" forKey:@"doctor"];
+        [dict setObject:@"what！！" forKey:@"subject"];
+        [dict setObject:@"11" forKey:@"newMsg"];
+        [dict setObject:@"2014-10-03" forKey:@"time"];
+        [dict setObject:@"waiting" forKey:@"state"];
+        
+        [_dataArray addObject:dict];
+    }
+    for (int i = 0; i < 1; i++) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:@"Doctor C" forKey:@"doctor"];
+        [dict setObject:@"hehe！！" forKey:@"subject"];
+        [dict setObject:@"0" forKey:@"newMsg"];
+        [dict setObject:@"2014-11-1" forKey:@"time"];
+        [dict setObject:@"over" forKey:@"state"];
+        
+        [_dataArray addObject:dict];
+    }
 }
 
 #pragma mark edit按钮
@@ -76,6 +128,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addData];
+
+    // 判断是否是ios7以上，调整下拉刷新的边界
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,9 +155,10 @@
     if (!cell) {
         cell = [[ResumeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentical];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.resumeArray = self.dataArray;
+//        cell.resumeArray = self.dataArray;
     }
-    cell.indexPath = indexPath;
+    
+    cell.dict = self.dataArray[indexPath.row];
     cell.accessoryView.hidden = self.canEdit;
     
     return cell;
@@ -112,15 +171,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LastChat *lastChat = [[LastChat alloc] init];
-    lastChat.doctorName = @"duan";
-    [self.navigationController pushViewController:lastChat animated:YES];
+    // 将新消息改为0
+    NSMutableDictionary *dict = self.dataArray[indexPath.row];
+    [dict setObject:@"0" forKey:@"newMsg"];
+    [self.tableView reloadData];
+    // 压入新控制器
+    ChatController *chat = [[ChatController alloc] init];
+    [self.navigationController pushViewController:chat animated:YES];
 }
-
-//- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return self.canEdit;
-//}
 
 #pragma mark 当用户提交了一个编辑操作就会调用（比如点击了“删除”按钮）
 // 只要实现了这个方法，就会默认添加滑动删除功能

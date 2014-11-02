@@ -9,7 +9,8 @@
 #import "StartChatController.h"
 #import "PersonCenterController.h"
 #import "startCell.h"
-#import "DialogController.h"
+#import "PCWaitingController.h"
+#import "SearchController.h"
 
 @interface StartChatController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 
@@ -41,10 +42,6 @@
 {
     // 标题
     self.title = @"New Chat";
-    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
-    // 设置滚动size
-    self.scrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 1);
-    [self.view addSubview:self.scrollView];
     
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -57,94 +54,122 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     
     // 右边按钮
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(RightButton)];
-    [self.scrollView setBackgroundColor:[UIColor whiteColor]];
-    
-    // editView 及其子控件
-    UIView *v1 = [[UIView alloc] initWithFrame:CGRectMake(15, 0, [UIScreen mainScreen].bounds.size.width - 2 * 15, 60)];
-    v1.hidden = YES;
-//    [v1 setBackgroundColor:[UIColor redColor]];
-    self.editView = v1;
-    [self.scrollView addSubview:v1];
-    
-    UIButton *btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 2 * 15 - 110, 5, 60, 44);
-    [btn1 setTitle:@"Add" forState:UIControlStateNormal];
-    [btn1 setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [btn1 addTarget:self action:@selector(addCell) forControlEvents:UIControlEventTouchUpInside];
-    self.addBtn = btn1;
-    [self.editView addSubview:btn1];
-    
-    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn2.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 2 * 15 - 60, 5, 60, 44);
-    [btn2 setTitle:@"Delete" forState:UIControlStateNormal];
-    [btn2 setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [btn2 addTarget:self action:@selector(deleteCell) forControlEvents:UIControlEventTouchUpInside];
-    self.deleteBtn = btn2;
-    [self.editView addSubview:btn2];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(Search)];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+//    
+//    // editView 及其子控件
+//    UIView *v1 = [[UIView alloc] initWithFrame:CGRectMake(15, 0, [UIScreen mainScreen].bounds.size.width - 2 * 15, 60)];
+//    v1.hidden = YES;
+////    [v1 setBackgroundColor:[UIColor redColor]];
+//    self.editView = v1;
+//    [self.scrollView addSubview:v1];
+//    
+//    UIButton *btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btn1.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 2 * 15 - 110, 5, 60, 44);
+//    [btn1 setTitle:@"Add" forState:UIControlStateNormal];
+//    [btn1 setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//    [btn1 addTarget:self action:@selector(addCell) forControlEvents:UIControlEventTouchUpInside];
+//    self.addBtn = btn1;
+//    [self.editView addSubview:btn1];
+//    
+//    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btn2.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 2 * 15 - 60, 5, 60, 44);
+//    [btn2 setTitle:@"Delete" forState:UIControlStateNormal];
+//    [btn2 setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//    [btn2 addTarget:self action:@selector(deleteCell) forControlEvents:UIControlEventTouchUpInside];
+//    self.deleteBtn = btn2;
+//    [self.editView addSubview:btn2];
     
     // tableview
-    UITableView *tabView = [[UITableView alloc] initWithFrame:CGRectMake(15, 60, [UIScreen mainScreen].bounds.size.width - 2 * 15, [UIScreen mainScreen].bounds.size.height - 60) style:UITableViewStylePlain];
+    UITableView *tabView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 60) style:UITableViewStylePlain];
     // 去掉灰色下划线
     tabView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tabView.dataSource = self;
     tabView.delegate = self;
-    [self.scrollView addSubview:tabView];
+    [self.view addSubview:tabView];
     self.tableView = tabView;
 
-}
-
-- (void)addCell
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add A New Doctor" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-    UITextField *field = [[UITextField alloc] initWithFrame:CGRectMake(alert.center.x + 20, alert.center.y + 10, 169, 30)];
-    [alert addSubview:field];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
-}
-
-- (void)deleteCell
-{
-    self.canEdit = !self.canEdit;
-    [self.tableView setEditing:self.canEdit animated:YES];
+    // 下拉刷新
+    __unsafe_unretained StartChatController *blockSelf = self;
+    [self.tableView setPullToRefreshHandler:^{
+        [blockSelf pullToRefresh];
+    }];
+    [self.tableView setPullToRefreshViewActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.tableView setPullToRefreshViewPullingText:@"pull loading..."];
+    [self.tableView setPullToRefreshViewReleaseText:@"let go load..."];
+    [self.tableView setPullToRefreshViewLoadingText:@"loading..."];
+    [self.tableView setPullToRefreshViewLoadedText:@""];
     
-    // 更改edit按钮样式
-    if (self.editView.hidden == YES) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(RightButton)];
-    }
-    else
-    {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(RightButton)];
-    }
 }
+- (void)pullToRefresh{
+    __block StartChatController *blockself =self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [blockself addData];
+        [blockself.tableView refreshFinished];
+    });
+}
+
+#pragma mark - Search 按钮
+- (void)Search
+{
+    SearchController *search = [[SearchController alloc] init];
+    [self.navigationController pushViewController:search animated:YES];
+}
+
+//- (void)addCell
+//{
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add A New Doctor" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+//    UITextField *field = [[UITextField alloc] initWithFrame:CGRectMake(alert.center.x + 20, alert.center.y + 10, 169, 30)];
+//    [alert addSubview:field];
+//    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+//    [alert show];
+//}
+
+//- (void)deleteCell
+//{
+//    self.canEdit = !self.canEdit;
+//    [self.tableView setEditing:self.canEdit animated:YES];
+//    
+//    // 更改edit按钮样式
+//    if (self.editView.hidden == YES) {
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(RightButton)];
+//    }
+//    else
+//    {
+//        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(RightButton)];
+//    }
+//}
 
 #pragma mark edit操作
-- (void)RightButton
-{
-    //  设置动画
-    self.editView.hidden = !self.editView.hidden;
-    if (self.editView.hidden == NO) {
-        self.editView.backgroundColor = [UIColor grayColor];
-        self.editView.frame = CGRectMake(15, 0, [UIScreen mainScreen].bounds.size.width - 2 * 15, 0);
-//        self.editView.alpha = 0;
-        [UIView beginAnimations:nil context:nil];
-        self.editView.frame = CGRectMake(15, 5, [UIScreen mainScreen].bounds.size.width - 2 * 15, 50);
-//        self.editView.alpha = 1;
-        [UIView setAnimationDuration:1.5f];
-        [UIView commitAnimations];
-    }
-    else
-    {
-        [UIView beginAnimations:nil context:nil];
-        self.editView.frame = CGRectMake(15, 0, [UIScreen mainScreen].bounds.size.width - 2 * 15, 0);
-//        self.editView.alpha = 0;
-        [UIView setAnimationDuration:1.5f];
-        [UIView commitAnimations];
+//- (void)RightButton
+//{
+//    
 
-        self.canEdit = NO;
-        [self.tableView setEditing:self.canEdit animated:YES];
-    }
-}
+    
+//    //  设置动画
+//    self.editView.hidden = !self.editView.hidden;
+//    if (self.editView.hidden == NO) {
+//        self.editView.backgroundColor = [UIColor grayColor];
+//        self.editView.frame = CGRectMake(15, 0, [UIScreen mainScreen].bounds.size.width - 2 * 15, 0);
+////        self.editView.alpha = 0;
+//        [UIView beginAnimations:nil context:nil];
+//        self.editView.frame = CGRectMake(15, 5, [UIScreen mainScreen].bounds.size.width - 2 * 15, 50);
+////        self.editView.alpha = 1;
+//        [UIView setAnimationDuration:1.5f];
+//        [UIView commitAnimations];
+//    }
+//    else
+//    {
+//        [UIView beginAnimations:nil context:nil];
+//        self.editView.frame = CGRectMake(15, 0, [UIScreen mainScreen].bounds.size.width - 2 * 15, 0);
+////        self.editView.alpha = 0;
+//        [UIView setAnimationDuration:1.5f];
+//        [UIView commitAnimations];
+//
+//        self.canEdit = NO;
+//        [self.tableView setEditing:self.canEdit animated:YES];
+//    }
+//}
 
 - (void)addData
 {
@@ -155,6 +180,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // 判断是否是ios7以上，调整下拉刷新的边界
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     // Do any additional setup after loading the view.
 }
 
@@ -191,10 +221,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DialogController *dialog = [[DialogController alloc] init];
-    startCell *start = (startCell *)[tableView cellForRowAtIndexPath:indexPath];
-    dialog.doctorContentLabel.text = start.doctorName.text;
-    dialog.subjectContentLabel.text = start.subject.text;
+    PCWaitingController *dialog = [[PCWaitingController alloc] init];
+//    startCell *start = (startCell *)[tableView cellForRowAtIndexPath:indexPath];
+//    dialog.doctorContentLabel.text = start.doctorName.text;
+//    dialog.subjectContentLabel.text = start.subject.text;
     [self.navigationController pushViewController:dialog animated:YES];
 }
 

@@ -11,5 +11,4 @@
 @interface StartChatController : UIViewController
 
 @property (nonatomic, strong) UIButton *leftItem;
-@property (nonatomic,strong) UIScrollView *scrollView;
 @end

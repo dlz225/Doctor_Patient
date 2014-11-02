@@ -1,21 +1,21 @@
 //
-//  PersonCenterController.m
+//  PCWaitingController.m
 //  PatientClient
 //
-//  Created by dlz225 on 14-10-20.
+//  Created by dlz225 on 14-11-2.
 //  Copyright (c) 2014年 duan. All rights reserved.
 //
 
-#import "PersonCenterController.h"
+#import "PCWaitingController.h"
 #import "UserCell.h"
 #import "PCAPIClient.h"
+#import "DialogController.h"
 
 #define kPropertyCount 9
 #define kCellHeight 40
 #define kGap 13
 
-@interface PersonCenterController () <UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate>
-
+@interface PCWaitingController () <UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong) UILabel *userNameLabel;
 //@property (nonatomic,strong) UILabel *userRealNameLabel;
 @property (nonatomic,strong) UITextField *ageTextField;
@@ -32,21 +32,23 @@
 @property (nonatomic,strong) NSMutableDictionary *userDict;
 @property (nonatomic,strong) NSMutableDictionary *ohterDict;
 
-
+@property (nonatomic,strong) UIButton *deleteBtn;  //删除该医生
+@property (nonatomic,strong) UIButton *seeDoctorBtn;  //看病
+@property (nonatomic,strong) UIView *thirdView;
 
 @property (nonatomic,assign) BOOL canEdit;  // 是否能修改状态
 @end
 
-@implementation PersonCenterController
+@implementation PCWaitingController
 
 - (id)init
 {
     if (self = [super init]) {
         [self initNavigationUI];
         [self addSubviews];
-
+        
         // 创建用户基本信息界面
-//        [self initUserUI];
+        //        [self initUserUI];
     }
     return self;
 }
@@ -55,39 +57,58 @@
 {
     // 标题
     self.title = @"Person Center";
-
+    
     
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [UIImage imageNamed:@"navigationbar_pop.png"];
+    UIImage *image = [UIImage imageNamed:@"navigationbar_back.png"];
     [btn setBackgroundImage:image forState:UIControlStateNormal];
-    UIImage *image2 = [UIImage imageNamed:@"navigationbar_pop_highlighted.png"];
+    UIImage *image2 = [UIImage imageNamed:@"navigationbar_back.png"];
     [btn setBackgroundImage:image2 forState:UIControlStateHighlighted];
     btn.bounds = (CGRect){CGPointZero,image.size};
-//    [btn addTarget:self action:@selector(personCenterLeftButton) forControlEvents:UIControlEventTouchUpInside];
-    self.leftItem = btn;
+        [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
-    
-    // 右边按钮
-    UIBarButtonItem *barBtnItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(personCenterRightButton)];
-    self.navigationItem.rightBarButtonItem = barBtnItem;
-    //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(personCenterRightButton)];
 
-   
+    
+    
 }
 
 - (void)addSubviews
 {
-    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    self.canEdit = NO;
+    // 第三块区域
+    UIView *vv = [[UIView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 44, [UIScreen mainScreen].bounds.size.width, 44)];
+    [vv setBackgroundColor:[UIColor colorWithRed:240/255 green:240/255 blue:240/255 alpha:0.01]];
+    [self.view addSubview:vv];
+    self.thirdView = vv;
+    
+    // 设置底部固定按钮--delete ， see the doctor
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width / 2 - 1, 44)];
+    [btn1 setTitle:@"Delete" forState:UIControlStateNormal];
+    [btn1.titleLabel setFont:[UIFont systemFontOfSize:20]];
+    [btn1 addTarget:self action:@selector(DeleteDoctor) forControlEvents:UIControlEventTouchUpInside];
+    [btn1 setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.thirdView addSubview:btn1];
+    self.deleteBtn = btn1;
+    
+    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width / 2 + 1, 0, [UIScreen mainScreen].bounds.size.width / 2, 44)];
+    [btn2 setTitle:@"See the Doctor" forState:UIControlStateNormal];
+    [btn2.titleLabel setFont:[UIFont systemFontOfSize:20]];
+    [btn2 addTarget:self action:@selector(SeeDoctor) forControlEvents:UIControlEventTouchUpInside];
+    [btn2 setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.thirdView addSubview:btn2];
+    self.deleteBtn = btn2;
+    
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 44)];
     // 设置滚动size
     self.scrollView.contentSize = CGSizeMake(0, self.scrollView.frame.size.height +0.5);
     [self.view addSubview:self.scrollView];
     
-    [self.scrollView setBackgroundColor:[UIColor whiteColor]];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     
     // 确定view
     UIView *v1 = [[UIView alloc] initWithFrame:CGRectMake(kGap, 0, [UIScreen mainScreen].bounds.size.width - 2 * kGap, 120)];
-//    [v1 setBackgroundColor:[UIColor redColor]];
+    //    [v1 setBackgroundColor:[UIColor redColor]];
     self.firstView = v1;
     [self.scrollView addSubview:v1];
     
@@ -99,19 +120,6 @@
     [self.scrollView addSubview:tabView];
     self.tableView = tabView;
     
-    self.canEdit = NO;
-    
-    // 底部登出按钮
-    UIButton *outBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    //    outBtn.frame = CGRectMake(2 * kGap, startBtn.frame.origin.y + kButtonHeight + 20, kTableViewWidth - 2 *kGap, kButtonHeight);
-    outBtn.bounds = CGRectMake(0, 0, 0, 44);
-    [outBtn setBackgroundColor:[UIColor blueColor]];
-    [outBtn setTitle:@"Sign Out" forState:UIControlStateNormal];
-    [outBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    [outBtn addTarget:self action:@selector(SignOut) forControlEvents:UIControlEventTouchUpInside];
-    [self.tableView addSubview:outBtn];
-    self.tableView.tableFooterView = outBtn;
-    
     // 设置头像
     UIButton *imageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     imageBtn.frame = CGRectMake(kGap, kGap, 80, 80);
@@ -120,7 +128,7 @@
     [imageBtn.layer setCornerRadius:40];
     
     [imageBtn setBackgroundImage:[UIImage imageNamed:self.userDict[@"patientPhoto"]] forState:UIControlStateNormal];
-    [imageBtn addTarget:self action:@selector(changeIcon) forControlEvents:UIControlEventTouchUpInside];
+//    [imageBtn addTarget:self action:@selector(changeIcon) forControlEvents:UIControlEventTouchUpInside];
     [self.firstView addSubview:imageBtn];
     
     self.photoPathBtn = imageBtn;
@@ -150,6 +158,22 @@
     
 }
 
+- (void)DeleteDoctor
+{
+    NSLog(@"delete!!!");
+}
+
+- (void)SeeDoctor
+{
+    DialogController *dialog = [[DialogController alloc] init];
+    [self.navigationController pushViewController:dialog animated:YES];
+}
+
+- (void)back
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 - (void)SignOut
 {
     NSLog(@"sign out!!!");
@@ -166,87 +190,19 @@
     [self.titleArray addObject:@"Address"];
 }
 
-#pragma mark 监听修改用户头像
-- (void)changeIcon
-{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Change Image" delegate:self
- cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"From Album",@"Take Photo",nil];
-    sheet.delegate = self;
-    [sheet showInView:self.view];
 
-}
-#pragma mark pickController delegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-    [self.photoPathBtn setBackgroundImage:image forState:UIControlStateNormal];
-}
-
-#pragma mark actionsheet delegate method
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    // 从本地相册调取图片
-    if (buttonIndex == 0) {
-        UIImagePickerController *pickController = [[UIImagePickerController alloc] init];
-        pickController.delegate = self;
-        pickController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        pickController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        pickController.allowsEditing = YES;
-        [self presentViewController:pickController animated:YES completion:^{
-            
-        }];
-    }
-    // 拍照
-    if (buttonIndex == 1) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"We don't do it" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"OK", nil];
-        [alert show];
-    }
-}
-
-- (void)willPresentActionSheet:(UIActionSheet *)actionSheet
-{
-    for (UIView *subview in actionSheet.subviews) {
-        if ([subview isKindOfClass:[UIButton class]]) {
-            UIButton *button = (UIButton *)subview;
-            [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-        }
-    }
-}
-
-#pragma mark edit按钮
-- (void)personCenterRightButton
-{
-    self.canEdit = !_canEdit;
-    
-    // 更改edit按钮样式
-    if (self.canEdit == YES) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(personCenterRightButton)];
-    }
-    else
-    {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(personCenterRightButton)];
-    }
-    [self.tableView reloadData];
-    
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    NSLog(@"%@",self.userDict);
+    //    NSLog(@"%@",self.userDict);
     
     [self initUserUI];
-    NSLog(@"-------------------------");
-    for (int i = 0; i<self.titleArray.count; i++) {
-        NSLog(@"%@",self.titleArray[i]);
-    }
+
 }
 
 - (void)initUserUI
 {
-    __block PersonCenterController *blockself = self;
+    __block PCWaitingController *blockself = self;
     // 获取个人信息
     [[PCAPIClient sharedAPIClient] getPath:@"patient!queryByUserId"parameters:@{} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"-----成功！！");
@@ -283,7 +239,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     static NSString *cellIdentical = @"personCell";
     UserCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentical];
     if (!cell) {
@@ -291,11 +247,10 @@
         cell.titleArray = self.titleArray;
         cell.contentArray = self.personArray;
     }
-
+    
     cell.indexPath = indexPath;
     cell.content.editable = _canEdit;
     cell.content.tag = indexPath.row;
-    cell.content.delegate = self;
     if (cell.content.editable == YES) {
         // 设置边框
         cell.content.layer.borderWidth = 1.0;
@@ -306,7 +261,7 @@
     {
         cell.content.layer.borderWidth = 0;
     }
-
+    
     return cell;
 }
 
@@ -333,11 +288,5 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark - textview delegate method
-- (BOOL)textViewShouldEndEditing:(UITextView *)textView
-{
-    [self.personArray replaceObjectAtIndex:textView.tag withObject:textView.text];
-    return YES;
-}
 
 @end
