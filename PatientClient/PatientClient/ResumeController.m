@@ -10,7 +10,7 @@
 #import "ResumeCell.h"
 #import "ChatController.h"
 #import "UIScrollView+AH3DPullRefresh.h"
-
+#import "DialogController.h"
 @interface ResumeController ()
 
 @property (nonatomic,assign) BOOL canEdit;  // 是否能修改状态
@@ -41,6 +41,7 @@
     UIImage *image2 = [UIImage imageNamed:@"navigationbar_pop_highlighted.png"];
     [btn setBackgroundImage:image2 forState:UIControlStateHighlighted];
     btn.bounds = (CGRect){CGPointZero,image.size};
+    [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     self.leftItem = btn;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     
@@ -70,7 +71,13 @@
         [blockself.tableView reloadData];
         [blockself.tableView refreshFinished];
     });
+
     
+}
+
+- (void)back
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)addData
@@ -134,6 +141,27 @@
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+}
+
+#pragma mark 动态修改左边导航图标及功能
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (_lastCtlIsDiagCtrl == YES) {
+        // 左边按钮
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIImage *image = [UIImage imageNamed:@"navigationbar_back.png"];
+        [btn setBackgroundImage:image forState:UIControlStateNormal];
+        UIImage *image2 = [UIImage imageNamed:@"nnavigationbar_back_highlighted.png"];
+        [btn setBackgroundImage:image2 forState:UIControlStateHighlighted];
+        btn.bounds = (CGRect){CGPointZero,image.size};
+        [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    }
+    else
+    {
+        NSLog(@"******************");
+    }
+
 }
 
 - (void)didReceiveMemoryWarning {

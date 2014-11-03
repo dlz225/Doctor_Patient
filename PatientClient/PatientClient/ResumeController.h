@@ -11,5 +11,5 @@
 @interface ResumeController : UITableViewController
 
 @property (nonatomic,strong) UIButton *leftItem;
-
+@property (nonatomic,assign) BOOL lastCtlIsDiagCtrl;
 @end

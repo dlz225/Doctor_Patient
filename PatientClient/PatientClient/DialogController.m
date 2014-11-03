@@ -323,7 +323,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == 1 && buttonIndex == 1) {
-        NSLog(@"congratulation!!!");
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Already send the question to doctor,please wait for a moment" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
         alert.tag = 2;
         [alert show];
@@ -331,6 +330,7 @@
     // 填完问题后
     if (alertView.tag == 2 && buttonIndex == 0) {
         ResumeController *resume = [[ResumeController alloc] init];
+        resume.lastCtlIsDiagCtrl = YES;
         [self.navigationController pushViewController:resume animated:YES];
     }
 }

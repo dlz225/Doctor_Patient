@@ -15,5 +15,4 @@
 @property (nonatomic,strong) User *user;
 @property (nonatomic,strong) UIScrollView *scrollView;
 
-
 @end

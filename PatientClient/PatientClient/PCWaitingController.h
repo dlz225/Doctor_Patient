@@ -14,5 +14,6 @@
 @property (nonatomic,strong) UIButton *leftItem;
 @property (nonatomic,strong) User *user;
 @property (nonatomic,strong) UIScrollView *scrollView;
+@property (nonatomic,copy) NSString *doctorName;
 
 @end

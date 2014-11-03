@@ -55,10 +55,7 @@
 
 - (void)initNavigationUI
 {
-    // 标题
-    self.title = @"Person Center";
-    
-    
+
     // 左边按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image = [UIImage imageNamed:@"navigationbar_back.png"];
@@ -68,8 +65,6 @@
     btn.bounds = (CGRect){CGPointZero,image.size};
         [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
-
-    
     
 }
 
@@ -223,6 +218,12 @@
     }];
 }
 
+#pragma mark 动态设置title
+- (void)viewWillAppear:(BOOL)animated
+{
+    // 标题
+    self.title = self.doctorName;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

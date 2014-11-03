@@ -221,11 +221,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PCWaitingController *dialog = [[PCWaitingController alloc] init];
-//    startCell *start = (startCell *)[tableView cellForRowAtIndexPath:indexPath];
-//    dialog.doctorContentLabel.text = start.doctorName.text;
-//    dialog.subjectContentLabel.text = start.subject.text;
-    [self.navigationController pushViewController:dialog animated:YES];
+    PCWaitingController *per = [[PCWaitingController alloc] init];
+    startCell *start = (startCell *)[tableView cellForRowAtIndexPath:indexPath];
+    per.doctorName = start.doctorName.text;
+    [self.navigationController pushViewController:per animated:YES];
 }
 
 #pragma mark 当用户提交了一个编辑操作就会调用（比如点击了“删除”按钮）

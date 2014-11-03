@@ -54,17 +54,16 @@
 - (void)initNavigationUI
 {
     // 标题
-    self.title = @"Person Center";
-
+    self.title =  @"Person Center" ;
     
-    // 左边按钮
+    // 左边按钮 -- 导航
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image = [UIImage imageNamed:@"navigationbar_pop.png"];
     [btn setBackgroundImage:image forState:UIControlStateNormal];
     UIImage *image2 = [UIImage imageNamed:@"navigationbar_pop_highlighted.png"];
     [btn setBackgroundImage:image2 forState:UIControlStateHighlighted];
     btn.bounds = (CGRect){CGPointZero,image.size};
-//    [btn addTarget:self action:@selector(personCenterLeftButton) forControlEvents:UIControlEventTouchUpInside];
+    //    [btn addTarget:self action:@selector(personCenterLeftButton) forControlEvents:UIControlEventTouchUpInside];
     self.leftItem = btn;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     
@@ -237,11 +236,23 @@
     [super viewDidLoad];
 //    NSLog(@"%@",self.userDict);
     
+    
+
+    
     [self initUserUI];
     NSLog(@"-------------------------");
     for (int i = 0; i<self.titleArray.count; i++) {
         NSLog(@"%@",self.titleArray[i]);
     }
+    
+    
+    
+}
+
+
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)initUserUI
