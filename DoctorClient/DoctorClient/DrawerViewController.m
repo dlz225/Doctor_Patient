@@ -39,7 +39,7 @@
         
         //init subview
         self.leftView = [[UIView alloc] init];
-        self.leftView.frame = CGRectMake(0, 0, kLeftWidth, screenBounds.size.height);
+        self.leftView.frame = CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height);
         self.leftView.clipsToBounds = YES;
         [self.view addSubview:self.leftView];
         
@@ -57,7 +57,8 @@
 //        _rightWidth  = self.rightView.frame.size.width;
 //        _rightOrighX = self.rightView.frame.origin.x;
         
-        _leftWidth = self.leftView.frame.size.width;
+//        _leftWidth = self.leftView.frame.size.width;
+        _leftWidth = screenBounds.size.width * 0.65;
         _leftHeight = self.leftView.frame.size.height;
         
         // 添加手势
@@ -191,7 +192,7 @@
     if (isLeft)
     {
         currentViewFrame.origin.x = kNeedAdjustDx * ratio;
-        currentViewFrame.size.width = _leftWidth- kNeedAdjustDx * ratio * 2;
+//        currentViewFrame.size.width = _leftWidth- kNeedAdjustDx * ratio * 2;
         currentViewFrame.size.height = _leftHeight  - kNeedAdjustDx * ratio * 2;
         [self.leftView setFrame:currentViewFrame];
     } else
@@ -235,7 +236,8 @@
                             {
                                 if (isLeft)
                                 {
-                                    blockself.leftView.frame = CGRectMake(0, 0, _leftWidth, _leftHeight);
+                                    
+                                    blockself.leftView.frame = CGRectMake(0 , 0, blockself.leftView.frame.size.width, _leftHeight);
                                 } else
                                 {
                                     //            self.rightView.frame = CGRectMake(_rightOrighX, 0, _rightWidth, _rightHeight);

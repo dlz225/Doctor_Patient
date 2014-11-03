@@ -11,10 +11,11 @@
 @interface DCADDNewsViewController ()<UITextViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *bgScrollView;
-@property (nonatomic, strong) UILabel *contentTitle;
+//@property (nonatomic, strong) UILabel *contentTitle;
 @property (nonatomic, strong) UILabel *endTime;
 @property (nonatomic, strong) UIButton *publish;
 
+@property (nonatomic, strong) UIButton *rightItemBtn;
 @end
 
 @implementation DCADDNewsViewController
@@ -39,51 +40,90 @@
     [btn addTarget:self action:@selector(getBack) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     
+    UIButton *addbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    UIImage *addimage = [UIImage imageNamed:@"navigation_add"];
+    [addbtn setTitle:@"Finish" forState:UIControlStateNormal];
+//    [addbtn setBackgroundImage:addimage forState:UIControlStateNormal];
+    [addbtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    addbtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    addbtn.bounds = CGRectMake(0, 0, 50, 20);
+    [addbtn addTarget:self action:@selector(editFinish) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addbtn];
+    self.rightItemBtn = addbtn;
+
+    
+    
     
     UIScrollView *scroll = [[UIScrollView alloc] init];
-    [scroll setBackgroundColor:[UIColor clearColor]];
+//    [scroll setBackgroundColor:[UItils colorForHex:@"efeff4" alpha:1]];
+    scroll.bounces = YES;
+    scroll.clipsToBounds = NO;
     [self.view addSubview:scroll];
     self.bgScrollView = scroll;
     
-    UILabel *title = [[UILabel alloc] init];
-    [title setBackgroundColor:[UIColor clearColor]];
-    title.font = [UIFont systemFontOfSize:13];
-    title.textColor = [UItils colorForHex:@"595657" alpha:1.0];
-    title.text = @"Context";
-    [self.bgScrollView addSubview:title];
-    self.contentTitle = title;
     
     UITextView *textView = [[UITextView alloc] init];
-    textView.font = [UIFont systemFontOfSize:12];
-    textView.textColor = [UItils colorForHex:@"595657" alpha:1.0];
-    textView.layer.borderWidth = 0.5;
-    textView.layer.borderColor = [UItils colorForHex:@"e5e1e2" alpha:1.0].CGColor;
+    textView.font = [UIFont systemFontOfSize:20];
+    textView.textColor = [UItils colorForHex:@"333333" alpha:1.0];
     textView.returnKeyType = UIReturnKeyDone;
     textView.delegate = self;
     [self.bgScrollView addSubview:textView];
     self.contentText = textView;
     
     UILabel *timelabel = [[UILabel alloc] init];
-    timelabel.textColor = [UItils colorForHex:@"595657" alpha:1.0];
-    timelabel.font = [UIFont systemFontOfSize:12];
-    timelabel.text = @"End Time";
-//    [self.bgScrollView addSubview:timelabel];
+    timelabel.textColor = [UItils colorForHex:@"595657" alpha:0.8];
+    timelabel.font = [UIFont systemFontOfSize:17];
+    timelabel.textAlignment = NSTextAlignmentCenter;
+    
+    NSDate *nowDate = [NSDate new];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MMM-dd aa hh:mm"];
+    NSString  *dateStr = [formatter stringFromDate:nowDate];
+    
+    timelabel.text = dateStr;
+    [self.bgScrollView addSubview:timelabel];
     self.endTime = timelabel;
     
     
     UIButton *publishbtn = [[UIButton alloc] init];
     [publishbtn setTitle:@"publish" forState:UIControlStateNormal];
-    publishbtn.titleLabel.font = [UIFont boldSystemFontOfSize:20];
-    [publishbtn setTitleColor:[UItils colorForHex:@"585456" alpha:1.0f] forState:UIControlStateNormal];
+    publishbtn.titleLabel.font = [UIFont boldSystemFontOfSize:22];
+    
+    [publishbtn setBackgroundImage:[UIImage imageNamed:@"CellSingle"]
+                       forState:UIControlStateNormal];
+    [publishbtn setBackgroundImage:[UIImage imageNamed:@"CellSingleHighlighted"]
+                       forState:UIControlStateHighlighted];
+   [publishbtn setTitleColor:[UItils colorForHex:@"000000" alpha:1.0f] forState:UIControlStateNormal];
+    
+//    [publishbtn setTitleColor:[UItils colorForHex:@"585456" alpha:1.0f] forState:UIControlStateNormal];
     [publishbtn addTarget:self action:@selector(publishNews) forControlEvents:UIControlEventTouchUpInside];
     [self.bgScrollView addSubview:publishbtn];
     self.publish = publishbtn;
     
     
+    [self.view setupSubviewTag];
     
-    [self setupSubviewTag:self.view];
+    [self setupKeyboardNotification];
 }
 
+
+- (void)setupKeyboardNotification{
+    __block DCADDNewsViewController *blockself = self;
+    NSOperationQueue *mainQuene =[NSOperationQueue mainQueue];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserverForName:UIKeyboardWillShowNotification
+                    object:nil
+                     queue:mainQuene
+                usingBlock:^(NSNotification *note){
+                    blockself.rightItemBtn.hidden = NO;
+                }];
+    [nc addObserverForName:UIKeyboardWillHideNotification
+                    object:nil
+                     queue:mainQuene
+                usingBlock:^(NSNotification *note){
+                    blockself.rightItemBtn.hidden = YES;
+                }];
+}
 
 - (void)publishNews{
     
@@ -92,14 +132,10 @@
 }
 
 
-
-- (void)setupSubviewTag:(UIView *)supView{
-    supView.tag = kTagNumReservedForExcludingViews;
-    for (UIView *view in supView.subviews) {
-        [self setupSubviewTag:view];
-    }
+- (void)editFinish{
+    [self.contentText resignFirstResponder];
+    
 }
-
 
 - (void)getBack{
     [self.navigationController popToRootViewControllerAnimated:YES];
@@ -125,15 +161,13 @@
     CGSize size = self.view.frame.size;
     
     self.bgScrollView.frame = CGRectMake(0, 0, size.width, size.height);
-    self.bgScrollView.contentSize = CGSizeMake(size.width, size.height-61);
+    self.bgScrollView.contentSize = CGSizeMake(size.width, size.height + 0.5);
     
-    self.contentTitle.frame = CGRectMake(20, 80, 100, 15);
-    self.contentText.frame = CGRectMake(80, 50, size.width - 80 -20, 200);
+    self.endTime.frame = CGRectMake(0 , 20 , size.width, 20);
+    self.contentText.frame = CGRectMake(15, 50, size.width -30, 200);
     
-    float timeY = CGRectGetMaxY(self.contentText.frame) + 30;
-    self.endTime.frame = CGRectMake(20,timeY , 100, 15);
     
-    self.publish.frame = CGRectMake((size.width -150)*0.5, size.height - 150, 150, 30);
+    self.publish.frame = CGRectMake(40, size.height - 80, size.width - 80, 40);
     
 }
 
@@ -143,6 +177,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    
     [self.view setBackgroundColor:[UIColor whiteColor]];
     self.title = @"News";
     // Do any additional setup after loading the view.
@@ -165,9 +203,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    
-}
 /*
 #pragma mark - Navigation
 

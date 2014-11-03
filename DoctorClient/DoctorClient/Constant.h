@@ -13,4 +13,6 @@
 #define kTagNumReservedForExcludingViews 19823
 #define kMainSize [UIScreen mainScreen].bounds.size
 
+#define kTextColor [UItils colorForHex:@"535353" alpha:1.0]
+
 #endif

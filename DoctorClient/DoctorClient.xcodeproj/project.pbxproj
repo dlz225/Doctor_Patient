@@ -26,6 +26,12 @@
 		A7222DFC1A009138006E5C53 /* DCNewsAction.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222DFB1A009138006E5C53 /* DCNewsAction.m */; };
 		A7222DFF1A00CA77006E5C53 /* DCADDNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222DFE1A00CA77006E5C53 /* DCADDNewsViewController.m */; };
 		A7222E021A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222E011A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A7222E071A02071C006E5C53 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222E061A02071C006E5C53 /* SettingViewController.m */; };
+		A7222E0A1A020D7D006E5C53 /* SettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7222E091A020D7D006E5C53 /* SettingTableViewCell.m */; };
+		A74768C31A0326AF007781A7 /* DCQuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A74768C21A0326AF007781A7 /* DCQuestionsViewController.m */; };
+		A74768C61A0328B8007781A7 /* DCWaitingRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A74768C51A0328B8007781A7 /* DCWaitingRoomViewController.m */; };
+		A74768C91A035C5E007781A7 /* DCCustomQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A74768C81A035C5E007781A7 /* DCCustomQuestionViewController.m */; };
+		A74768CC1A0364FA007781A7 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = A74768CB1A0364FA007781A7 /* UIView+Extension.m */; };
 		A74D13DC19EFBE8A008234EB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A74D13DB19EFBE8A008234EB /* main.m */; };
 		A74D13DF19EFBE8A008234EB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A74D13DE19EFBE8A008234EB /* AppDelegate.m */; };
 		A74D13E219EFBE8A008234EB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A74D13E119EFBE8A008234EB /* ViewController.m */; };
@@ -91,7 +97,19 @@
 		A7222DFE1A00CA77006E5C53 /* DCADDNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCADDNewsViewController.m; sourceTree = "<group>"; };
 		A7222E001A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+AH3DPullRefresh.h"; sourceTree = "<group>"; };
 		A7222E011A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+AH3DPullRefresh.m"; sourceTree = "<group>"; };
+		A7222E051A02071C006E5C53 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		A7222E061A02071C006E5C53 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		A7222E081A020D7C006E5C53 /* SettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTableViewCell.h; sourceTree = "<group>"; };
+		A7222E091A020D7D006E5C53 /* SettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewCell.m; sourceTree = "<group>"; };
 		A725106319FA045C000D2A2E /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
+		A74768C11A0326AF007781A7 /* DCQuestionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCQuestionsViewController.h; sourceTree = "<group>"; };
+		A74768C21A0326AF007781A7 /* DCQuestionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCQuestionsViewController.m; sourceTree = "<group>"; };
+		A74768C41A0328B8007781A7 /* DCWaitingRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCWaitingRoomViewController.h; sourceTree = "<group>"; };
+		A74768C51A0328B8007781A7 /* DCWaitingRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCWaitingRoomViewController.m; sourceTree = "<group>"; };
+		A74768C71A035C5E007781A7 /* DCCustomQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCCustomQuestionViewController.h; sourceTree = "<group>"; };
+		A74768C81A035C5E007781A7 /* DCCustomQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCCustomQuestionViewController.m; sourceTree = "<group>"; };
+		A74768CA1A0364FA007781A7 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		A74768CB1A0364FA007781A7 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		A74D13D619EFBE8A008234EB /* DoctorClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoctorClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A74D13DA19EFBE8A008234EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A74D13DB19EFBE8A008234EB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -170,6 +188,37 @@
 				A70ACC8A19F34953009BAC9A /* DCAPIClient.m */,
 			);
 			name = DCAPIClient;
+			sourceTree = "<group>";
+		};
+		A7222E031A020690006E5C53 /* 4_DCQuestionsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A74768C11A0326AF007781A7 /* DCQuestionsViewController.h */,
+				A74768C21A0326AF007781A7 /* DCQuestionsViewController.m */,
+				A74768C71A035C5E007781A7 /* DCCustomQuestionViewController.h */,
+				A74768C81A035C5E007781A7 /* DCCustomQuestionViewController.m */,
+			);
+			name = 4_DCQuestionsViewController;
+			sourceTree = "<group>";
+		};
+		A7222E041A0206BC006E5C53 /* 5_SettingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A7222E051A02071C006E5C53 /* SettingViewController.h */,
+				A7222E061A02071C006E5C53 /* SettingViewController.m */,
+				A7222E081A020D7C006E5C53 /* SettingTableViewCell.h */,
+				A7222E091A020D7D006E5C53 /* SettingTableViewCell.m */,
+			);
+			name = 5_SettingViewController;
+			sourceTree = "<group>";
+		};
+		A74768C01A0325E3007781A7 /* 3_DCWaitingRoomViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A74768C41A0328B8007781A7 /* DCWaitingRoomViewController.h */,
+				A74768C51A0328B8007781A7 /* DCWaitingRoomViewController.m */,
+			);
+			name = 3_DCWaitingRoomViewController;
 			sourceTree = "<group>";
 		};
 		A74D13CD19EFBE8A008234EB = {
@@ -257,6 +306,8 @@
 				A7222DF519FFB15E006E5C53 /* UItils.m */,
 				A7222DF719FFB462006E5C53 /* NSString+Extension.h */,
 				A7222DF819FFB462006E5C53 /* NSString+Extension.m */,
+				A74768CA1A0364FA007781A7 /* UIView+Extension.h */,
+				A74768CB1A0364FA007781A7 /* UIView+Extension.m */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -301,6 +352,9 @@
 				A74D140919EFC23A008234EB /* 0_DCLogin */,
 				A74D140C19EFC24D008234EB /* 1_DCMainViewController */,
 				A7B9D60F19FE368900E76A13 /* 2_DCHomeViewCOntroller */,
+				A74768C01A0325E3007781A7 /* 3_DCWaitingRoomViewController */,
+				A7222E031A020690006E5C53 /* 4_DCQuestionsViewController */,
+				A7222E041A0206BC006E5C53 /* 5_SettingViewController */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -455,15 +509,19 @@
 				A7B9D61219FE3E2800E76A13 /* DCHomeViewController.m in Sources */,
 				A70ACC8619F348B7009BAC9A /* AFURLConnectionOperation.m in Sources */,
 				A70ACC8819F348B7009BAC9A /* UIImageView+AFNetworking.m in Sources */,
+				A7222E071A02071C006E5C53 /* SettingViewController.m in Sources */,
 				A74D140F19EFC451008234EB /* DCMainViewController.m in Sources */,
 				A74D13E219EFBE8A008234EB /* ViewController.m in Sources */,
 				A7222DFC1A009138006E5C53 /* DCNewsAction.m in Sources */,
 				A70ACC8519F348B7009BAC9A /* AFPropertyListRequestOperation.m in Sources */,
+				A74768C91A035C5E007781A7 /* DCCustomQuestionViewController.m in Sources */,
 				A7222E021A01109B006E5C53 /* UIScrollView+AH3DPullRefresh.m in Sources */,
 				A74D140819EFC1F4008234EB /* DrawerViewController.m in Sources */,
+				A7222E0A1A020D7D006E5C53 /* SettingTableViewCell.m in Sources */,
 				A7222DFF1A00CA77006E5C53 /* DCADDNewsViewController.m in Sources */,
 				A7222DF919FFB462006E5C53 /* NSString+Extension.m in Sources */,
 				A74D141319EFE8A6008234EB /* DCMainModel.m in Sources */,
+				A74768C61A0328B8007781A7 /* DCWaitingRoomViewController.m in Sources */,
 				1376410219F38AD8003B647D /* LoginViewController.m in Sources */,
 				A70ACC8719F348B7009BAC9A /* AFXMLRequestOperation.m in Sources */,
 				A7546CD519F50EFD0079203F /* DCSqlite.m in Sources */,
@@ -472,7 +530,9 @@
 				A70ACC8419F348B7009BAC9A /* AFNetworkActivityIndicatorManager.m in Sources */,
 				A70ACC8119F348B7009BAC9A /* AFHTTPRequestOperation.m in Sources */,
 				A74D13DF19EFBE8A008234EB /* AppDelegate.m in Sources */,
+				A74768CC1A0364FA007781A7 /* UIView+Extension.m in Sources */,
 				1376410519F38AEE003B647D /* RegisterViewController.m in Sources */,
+				A74768C31A0326AF007781A7 /* DCQuestionsViewController.m in Sources */,
 				A7222DED19FF898E006E5C53 /* DCNewsModel.m in Sources */,
 				A70ACC8219F348B7009BAC9A /* AFImageRequestOperation.m in Sources */,
 				A70ACC8019F348B7009BAC9A /* AFHTTPClient.m in Sources */,

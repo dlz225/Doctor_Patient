@@ -22,7 +22,6 @@
     
     CGSize size = [self.content sizeWithTextAttributes:nil font:kNewsFont constrainedToSize:CGSizeMake(kNewsWeight, 1000)];
     self.height = size.height > 40 ? size.height:40;
-    
 }
 
 @end

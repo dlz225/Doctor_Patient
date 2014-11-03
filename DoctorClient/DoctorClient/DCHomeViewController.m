@@ -92,9 +92,12 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"ADD" style:UIBarButtonItemStylePlain target:self action:@selector(addnews)];
-    
-    self.navigationItem.rightBarButtonItem = rightItem;
+    UIButton *addbtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *addimage = [UIImage imageNamed:@"navigation_add"];
+    [addbtn setBackgroundImage:addimage forState:UIControlStateNormal];
+    addbtn.bounds = (CGRect){CGPointZero,image.size};
+    [addbtn addTarget:self action:@selector(addnews) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addbtn];
     
     
     
@@ -150,7 +153,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     DCNewsModel *model = [self.dataArray objectAtIndex:indexPath.row];
     
-    return model.height +10;
+    return model.height + 20;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

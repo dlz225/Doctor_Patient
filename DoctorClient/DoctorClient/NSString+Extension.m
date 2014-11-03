@@ -14,29 +14,39 @@
                             font:(UIFont*)theFont
                constrainedToSize:(CGSize)size
 {
-    CGSize textSize;
     
-    // -sizeWithAttributes: method is available in iOS 7.0 and later
-    if ( [self respondsToSelector:@selector(sizeWithAttributes:)] ) {
-        CGRect textRect = [self boundingRectWithSize:size
-                                             options:(NSStringDrawingUsesLineFragmentOrigin |
-                                                      NSStringDrawingUsesFontLeading)
-                                          attributes:attributes
-                                             context:nil];
-        textSize = textRect.size;
-        textSize.width  = ceil(textSize.width);
-        textSize.height = ceil(textSize.height);
-        
-    }
-    else {
-        
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        textSize = [self sizeWithFont:theFont constrainedToSize:CGSizeMake(size.width, 10000.0)];
-#pragma clang diagnostic pop
-    }
     
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:theFont forKey:NSFontAttributeName];
+    
+    CGSize textSize = [self boundingRectWithSize:size
+                                         options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                      attributes:dictionary
+                                         context:nil].size;
     return textSize;
+    
+//    CGSize textSize;
+//    
+//    // -sizeWithAttributes: method is available in iOS 7.0 and later
+//    if ( [self respondsToSelector:@selector(sizeWithAttributes:)] ) {
+//        CGRect textRect = [self boundingRectWithSize:size
+//                                             options:(NSStringDrawingUsesLineFragmentOrigin |
+//                                                      NSStringDrawingUsesFontLeading)
+//                                          attributes:attributes
+//                                             context:nil];
+//        textSize = textRect.size;
+//        textSize.width  = ceil(textSize.width);
+//        textSize.height = ceil(textSize.height);
+//        
+//    }
+//    else {
+//        
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+//        textSize = [self sizeWithFont:theFont constrainedToSize:CGSizeMake(size.width, 10000.0)];
+//#pragma clang diagnostic pop
+//    }
+//    
+//    return textSize;
 }
 
 

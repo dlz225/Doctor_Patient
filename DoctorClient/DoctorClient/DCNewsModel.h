@@ -16,7 +16,7 @@
 
 
 #define kNewsWeight (kMainSize.width - 10 - 80)
-#define kNewsFont [UIFont systemFontOfSize:12]
+#define kNewsFont [UIFont systemFontOfSize:15]
 
 
 @interface DCNewsModel : NSObject

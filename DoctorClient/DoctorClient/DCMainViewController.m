@@ -10,12 +10,18 @@
 #import "ViewController.h"
 #import "DCMainModel.h"
 #import "DCHomeViewController.h"
+#import "SettingViewController.h"
+#import "DCQuestionsViewController.h"
+#import "DCWaitingRoomViewController.h"
 
 
 @interface DCMainViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UIView *mainView;
 @property (nonatomic, strong) NSMutableArray *controllersArray;
 @property (nonatomic, strong) UITableView *controlTableView;
+
+@property (nonatomic, strong) UIImageView *lineImageView;
+@property (nonatomic, strong) UILabel *lineLabel;
 @end
 
 @implementation DCMainViewController
@@ -39,11 +45,28 @@
     [mainView setBackgroundColor:[UIColor brownColor]];
     self.mainView = mainView;
     
+    
+    
+    UIImageView *imageview= [[UIImageView alloc] init];
+    [imageview setBackgroundColor:[UIColor clearColor]];
+    imageview.image = [UIImage imageNamed:@"offline"] ;
+    [self.mainView addSubview:imageview];
+    self.lineImageView = imageview;
+    self.lineImageView.frame = CGRectMake(30, 40, 40, 40);
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.font = [UIFont boldSystemFontOfSize:17];
+    label.text = @"On Line";
+    [self.mainView addSubview:label];
+    self.lineLabel = label;
+    self.lineLabel.frame = CGRectMake(CGRectGetMaxX(self.lineImageView.frame) + 15 , CGRectGetMinY(self.lineImageView.frame) + 10, 100, 20);
+    
+    
     UITableView *tableview = [[UITableView alloc] init];
     [tableview setBackgroundColor:[UIColor clearColor]];
     tableview.dataSource = self;
     tableview.delegate = self;
-    tableview.frame = CGRectMake(20, 50, 150, 400);
+    tableview.frame = CGRectMake(20, 100, 200, 400);
     tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self.mainView addSubview:tableview];
@@ -63,7 +86,10 @@
 - (void)addController{
     
     DCHomeViewController *homeviewcontroller = [[DCHomeViewController alloc] init];
-    [homeviewcontroller.leftButton addTarget:self action:@selector(leftItemClick:) forControlEvents:UIControlEventTouchUpInside];
+    [homeviewcontroller.leftButton addTarget:self
+                                      action:@selector(leftItemClick:)
+                            forControlEvents:UIControlEventTouchUpInside];
+    
     DCMainModel *model1 = [[DCMainModel alloc] init];
     UINavigationController *navigationHome = [[UINavigationController alloc] initWithRootViewController:homeviewcontroller];
     navigationHome.navigationBar.tag = kTagNumReservedForExcludingViews;
@@ -73,34 +99,48 @@
     
     
     
-    UIViewController *waitingRoom = [[UIViewController alloc] init];
-    [waitingRoom.view setBackgroundColor:[UIColor blueColor]];
+    DCWaitingRoomViewController *waitingRoom = [[DCWaitingRoomViewController alloc] init];
+    [waitingRoom.leftButton addTarget:self
+                               action:@selector(leftItemClick:)
+                     forControlEvents:UIControlEventTouchUpInside];
+
+    UINavigationController *navigationRM = [[UINavigationController alloc] initWithRootViewController:waitingRoom];
+    navigationRM.navigationBar.tag = kTagNumReservedForExcludingViews;
     
-    DCMainModel *model2 = [[DCMainModel alloc] init];
-    model2.control = waitingRoom;
-    model2.title = @"Waiting Room";
+    DCMainModel *modelWR = [[DCMainModel alloc] init];
+    modelWR.control = navigationRM;
+    modelWR.title = @"Waiting Room";
     
     
-    UIViewController *labOrders = [[UIViewController alloc] init];
-    [labOrders.view setBackgroundColor:[UIColor grayColor]];
+    DCQuestionsViewController *questionsVC = [[DCQuestionsViewController alloc] init];
+    [questionsVC.leftButton addTarget:self
+                               action:@selector(leftItemClick:)
+                     forControlEvents:UIControlEventTouchUpInside];
     
-    DCMainModel *labmodel = [[DCMainModel alloc] init];
-    labmodel.control = labOrders;
-    labmodel.title = @"Lab Orders";
+    UINavigationController *navigationQuest = [[UINavigationController alloc] initWithRootViewController:questionsVC];
+    navigationQuest.navigationBar.tag = kTagNumReservedForExcludingViews;
+
+    DCMainModel *questmodel = [[DCMainModel alloc] init];
+    questmodel.control = navigationQuest;
+    questmodel.title = @"Triage Questions";
     
-    UIViewController *signIn = [[UIViewController alloc] init];
-    [signIn.view setBackgroundColor:[UIColor greenColor]];
+    
+    
+    SettingViewController *settingviewcontroller = [[SettingViewController alloc] init];
+    [settingviewcontroller.leftButton addTarget:self action:@selector(leftItemClick:) forControlEvents:UIControlEventTouchUpInside];
+    UINavigationController *navigationSetting = [[UINavigationController alloc] initWithRootViewController:settingviewcontroller];
+    navigationSetting.navigationBar.tag = kTagNumReservedForExcludingViews;
     
     DCMainModel *signInModel = [[DCMainModel alloc] init];
-    signInModel.control = signIn;
-    signInModel.title = @"Sign In";
+    signInModel.control = navigationSetting;
+    signInModel.title = @"Setting";
     
     
     
     [self initCurrentView:navigationHome.view];
     [self.controllersArray addObject:model1];
-    [self.controllersArray addObject:model2];
-    [self.controllersArray addObject:labmodel];
+    [self.controllersArray addObject:modelWR];
+    [self.controllersArray addObject:questmodel];
     [self.controllersArray addObject:signInModel];
 }
 
@@ -129,7 +169,6 @@
     cell.textLabel.font = [UIFont boldSystemFontOfSize:17];
     cell.textLabel.text = model.title;
     [cell setBackgroundColor:[UIColor clearColor]];
-
     return cell;
 }
 
